@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "prediction.schema.json",
+  "title": "Pipeline Prediction",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "example_id",
+    "pipeline",
+    "model_name",
+    "prompt_version",
+    "raw_output",
+    "parse_status",
+    "created_at"
+  ],
+  "properties": {
+    "example_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pipeline": {
+      "type": "string",
+      "enum": ["A", "B", "C", "D"]
+    },
+    "model_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "prompt_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "raw_output": {
+      "type": "string"
+    },
+    "predicted_transcript": {
+      "type": ["string", "null"]
+    },
+    "predicted_tool_call": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["name", "arguments"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "const": "transport.where_is_vehicle"
+        },
+        "arguments": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["city", "transport_type", "route_number"],
+          "properties": {
+            "city": {
+              "type": "string",
+              "minLength": 1
+            },
+            "transport_type": {
+              "type": "string",
+              "enum": ["tram", "trolleybus", "bus"]
+            },
+            "route_number": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^[0-9]+[a-z]?$"
+            }
+          }
+        }
+      }
+    },
+    "parse_status": {
+      "type": "string",
+      "enum": ["ok", "no_tool", "invalid_json", "invalid_schema", "error"]
+    },
+    "latency_seconds": {
+      "type": ["number", "null"],
+      "minimum": 0
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "parse_status": {
+            "const": "ok"
+          }
+        }
+      },
+      "then": {
+        "required": ["predicted_tool_call"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "parse_status": {
+            "const": "no_tool"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "predicted_tool_call": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
+}

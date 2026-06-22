@@ -1,0 +1,223 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "dataset-example.schema.json",
+  "title": "Dataset Example",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "split",
+    "language",
+    "user_text",
+    "needs_tool",
+    "expected_tool_call"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "split": {
+      "type": "string",
+      "enum": ["train", "validation", "test"]
+    },
+    "language": {
+      "type": "string",
+      "enum": ["ru", "en"]
+    },
+    "user_text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "needs_tool": {
+      "type": "boolean"
+    },
+    "query_type": {
+      "type": "string",
+      "enum": ["tool", "no_tool", "ambiguous", "out_of_scope"]
+    },
+    "expected_tool_call": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["name", "arguments"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "const": "transport.where_is_vehicle"
+        },
+        "arguments": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["city", "transport_type", "route_number"],
+          "properties": {
+            "city": {
+              "type": "string",
+              "minLength": 1,
+              "examples": ["moscow", "london", "berlin"]
+            },
+            "transport_type": {
+              "type": "string",
+              "enum": ["tram", "trolleybus", "bus"]
+            },
+            "route_number": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^[0-9]+[a-z]?$",
+              "examples": ["7", "10", "55a", "90п"]
+            }
+          }
+        }
+      }
+    },
+    "expected_final_answer": {
+      "type": ["string", "null"]
+    },
+    "slots": {
+      "type": ["object", "null"],
+      "additionalProperties": true,
+      "properties": {
+        "city_surface": {
+          "type": "string"
+        },
+        "city_normalized": {
+          "type": "string"
+        },
+        "transport_surface": {
+          "type": "string"
+        },
+        "transport_normalized": {
+          "type": "string",
+          "enum": ["tram", "trolleybus", "bus"]
+        },
+        "route_number_surface": {
+          "type": "string"
+        },
+        "route_number_normalized": {
+          "type": "string",
+          "pattern": "^[0-9]+[a-z]?$"
+        }
+      }
+    },
+    "audio": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": [
+        "audio_path",
+        "sample_rate",
+        "language",
+        "transcript"
+      ],
+      "properties": {
+        "audio_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "duration_seconds": {
+          "type": ["number", "null"],
+          "minimum": 0
+        },
+        "sample_rate": {
+          "type": "integer",
+          "minimum": 8000
+        },
+        "tts_engine": {
+          "type": ["string", "null"]
+        },
+        "speaker_id": {
+          "type": ["string", "null"]
+        },
+        "language": {
+          "type": "string",
+          "enum": ["ru", "en"]
+        },
+        "transcript": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "needs_tool": {
+            "const": true
+          }
+        },
+        "required": ["needs_tool"]
+      },
+      "then": {
+        "properties": {
+          "expected_tool_call": {
+            "type": "object"
+          },
+          "query_type": {
+            "const": "tool"
+          }
+        },
+        "required": ["expected_tool_call"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "needs_tool": {
+            "const": false
+          }
+        },
+        "required": ["needs_tool"]
+      },
+      "then": {
+        "properties": {
+          "expected_tool_call": {
+            "type": "null"
+          },
+          "query_type": {
+            "enum": ["no_tool", "ambiguous", "out_of_scope"]
+          }
+        }
+      }
+    }
+  ],
+  "examples": [
+    {
+      "id": "ru_tool_0001",
+      "split": "test",
+      "language": "ru",
+      "user_text": "Где сейчас едет трамвай номер 7 в Москве?",
+      "needs_tool": true,
+      "query_type": "tool",
+      "expected_tool_call": {
+        "name": "transport.where_is_vehicle",
+        "arguments": {
+          "city": "moscow",
+          "transport_type": "tram",
+          "route_number": "7"
+        }
+      },
+      "expected_final_answer": null,
+      "slots": {
+        "city_surface": "Москве",
+        "city_normalized": "moscow",
+        "transport_surface": "трамвай",
+        "transport_normalized": "tram",
+        "route_number_surface": "7",
+        "route_number_normalized": "7"
+      },
+      "audio": null
+    },
+    {
+      "id": "en_no_tool_0001",
+      "split": "test",
+      "language": "en",
+      "user_text": "What is a trolleybus?",
+      "needs_tool": false,
+      "query_type": "no_tool",
+      "expected_tool_call": null,
+      "expected_final_answer": "A trolleybus is an electric bus powered by overhead wires.",
+      "slots": null,
+      "audio": null
+    }
+  ]
+}

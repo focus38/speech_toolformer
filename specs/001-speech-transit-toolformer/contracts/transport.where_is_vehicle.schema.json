@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "transport.where_is_vehicle.schema.json",
+  "title": "transport.where_is_vehicle Tool Call",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["tool_call"],
+  "properties": {
+    "tool_call": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "arguments"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "const": "transport.where_is_vehicle"
+        },
+        "arguments": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["city", "transport_type", "route_number"],
+          "properties": {
+            "city": {
+              "type": "string",
+              "minLength": 1,
+              "examples": ["moscow", "london", "berlin"]
+            },
+            "transport_type": {
+              "type": "string",
+              "enum": ["tram", "trolleybus", "bus"]
+            },
+            "route_number": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^[0-9]+[a-z]?$",
+              "examples": ["7", "10", "55a", "90п"]
+            }
+          }
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "tool_call": {
+        "name": "transport.where_is_vehicle",
+        "arguments": {
+          "city": "moscow",
+          "transport_type": "tram",
+          "route_number": "7"
+        }
+      }
+    },
+    {
+      "tool_call": {
+        "name": "transport.where_is_vehicle",
+        "arguments": {
+          "city": "london",
+          "transport_type": "bus",
+          "route_number": "272"
+        }
+      }
+    }
+  ]
+}
