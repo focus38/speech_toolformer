@@ -1,0 +1,52 @@
+seed: 20260622
+
+splits:
+  train: 0.7
+  validation: 0.15
+  test: 0.15
+
+outputs:
+  text_dir: data/synthetic_text
+  text_dataset: data/synthetic_text/dataset.jsonl
+  train: data/synthetic_text/train.jsonl
+  validation: data/synthetic_text/validation.jsonl
+  test: data/synthetic_text/test.jsonl
+  audio_dir: data/synthetic_audio
+  audio_metadata: data/synthetic_audio/metadata.jsonl
+
+generation:
+  total_examples: 240
+  no_tool_ratio: 0.15
+  languages:
+    - ru
+    - en
+  cities:
+    - moscow
+    - saint_petersburg
+    - berlin
+    - london
+  transport_types:
+    - tram
+    - trolleybus
+    - bus
+  route_number_pools:
+    numeric:
+      - "5"
+      - "7"
+      - "10"
+      - "90"
+      - "272"
+    latin_suffix:
+      - 55a
+      - 80b
+      - 90p
+    cyrillic_suffix:
+      - 90п
+      - 55а
+
+audio:
+  sample_rate: 16000
+  tts_engine: coqui-tts
+  speakers:
+    ru: ru_voice_01
+    en: en_voice_01

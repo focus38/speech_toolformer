@@ -226,3 +226,17 @@ __marimo__/
 
 data/chroma
 data/results
+
+# Speech Toolformer generated artifacts
+data/raw/
+data/synthetic_text/
+data/synthetic_audio/
+data/predictions/
+data/metrics/
+data/checkpoints/
+data/adapters/
+*.ckpt
+*.safetensors
+*.pt
+*.pth
+*.onnx

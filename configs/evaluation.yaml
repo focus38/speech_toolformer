@@ -1,0 +1,39 @@
+metrics:
+  tool_use:
+    - parsable_invocation_rate
+    - exact_match_accuracy
+    - precision
+    - recall
+    - false_alarm_rate
+    - city_accuracy
+    - transport_type_accuracy
+    - route_number_accuracy
+  asr:
+    - wer
+    - wer_by_language
+    - route_number_error_rate
+    - city_error_rate
+  comparison:
+    - pipeline_a_vs_c
+    - pipeline_a_vs_d
+    - text_vs_audio_gap
+
+outputs:
+  metrics_dir: data/metrics
+  pipeline_a_metrics: data/metrics/pipeline_a_metrics.json
+  pipeline_b_metrics: data/metrics/pipeline_b_metrics.json
+  pipeline_c_metrics: data/metrics/pipeline_c_metrics.json
+  pipeline_d_metrics: data/metrics/pipeline_d_metrics.json
+  comparison_table: data/metrics/comparison_table.csv
+  failure_cases: reports/failure_cases.jsonl
+  figures_dir: reports/figures
+
+failure_buckets:
+  fields:
+    - language
+    - city
+    - transport_type
+    - route_number_pattern
+    - parse_status
+  max_examples_per_bucket: 20
+  include_raw_output: true

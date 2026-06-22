@@ -12,20 +12,20 @@
 
 **Purpose**: Create the reproducible Python project structure, configs, scripts, and test layout required by all later phases.
 
-- [ ] T001 Create Python package skeleton with `__init__.py` files in `src/data/`, `src/audio/`, `src/models/`, `src/tools/`, `src/pipelines/`, `src/evaluation/`, `src/data_models/`, and `src/utils/`
-- [ ] T002 Create test package skeleton with `__init__.py` files in `tests/unit/`, `tests/integration/`, `tests/contract/`, and `tests/evaluation/`
-- [ ] T003 Create pinned dependency list in `requirements.txt` for Python 3.12+ with critical libraries from `specs/001-speech-transit-toolformer/plan.md`
-- [ ] T004 Create reproducible environment installer in `scripts/setup.sh` that installs `requirements.txt` for local Linux and Google Colab
-- [ ] T005 [P] Create model configuration defaults in `configs/model.yaml` including model id, quantization settings, decoding settings, and prompt version
-- [ ] T006 [P] Create dataset configuration defaults in `configs/dataset.yaml` including seed, split proportions, output paths, languages, cities, transport types, and route_number pools
-- [ ] T007 [P] Create pipeline configuration defaults in `configs/pipelines.yaml` for pipelines A, B, C, and D input/output paths
-- [ ] T008 [P] Create evaluation configuration defaults in `configs/evaluation.yaml` for metric names, output paths, and failure-bucket settings
-- [ ] T009 Create configuration loader tests in `tests/unit/test_config_loading.py` for required keys in `configs/model.yaml`, `configs/dataset.yaml`, `configs/pipelines.yaml`, and `configs/evaluation.yaml`
-- [ ] T010 Implement YAML configuration loader in `src/utils/config.py`
-- [ ] T011 Create repository artifact ignore rules in `.gitignore` for generated audio, datasets, predictions, metrics, checkpoints, and large adapters under `data/`
-- [ ] T012 Create initial project command smoke test in `tests/integration/test_setup_smoke.py` for importability of `src` packages and config loading
-- [ ] T012.1 Create quickstart guide in `specs/001-speech-transit-toolformer/quickstart.md` with setup.
-- [ ] T012.2 Create CLI package skeleton in `src/cli/` and define command names for contract validation, dataset generation, audio generation, pipelines A-D, and evaluation.
+- [X] T001 Create Python package skeleton with `__init__.py` files in `src/data/`, `src/audio/`, `src/models/`, `src/tools/`, `src/pipelines/`, `src/evaluation/`, `src/data_models/`, and `src/utils/`
+- [X] T002 Create test package skeleton with `__init__.py` files in `tests/unit/`, `tests/integration/`, `tests/contract/`, and `tests/evaluation/`
+- [X] T003 Create pinned dependency list in `requirements.txt` for Python 3.12+ with critical libraries from `specs/001-speech-transit-toolformer/plan.md`
+- [X] T004 Create reproducible environment installer in `scripts/setup.sh` that installs `requirements.txt` for local Linux and Google Colab
+- [X] T005 [P] Create model configuration defaults in `configs/model.yaml` including model id, quantization settings, decoding settings, and prompt version
+- [X] T006 [P] Create dataset configuration defaults in `configs/dataset.yaml` including seed, split proportions, output paths, languages, cities, transport types, and route_number pools
+- [X] T007 [P] Create pipeline configuration defaults in `configs/pipelines.yaml` for pipelines A, B, C, and D input/output paths
+- [X] T008 [P] Create evaluation configuration defaults in `configs/evaluation.yaml` for metric names, output paths, and failure-bucket settings
+- [X] T009 Create configuration loader tests in `tests/unit/test_config_loading.py` for required keys in `configs/model.yaml`, `configs/dataset.yaml`, `configs/pipelines.yaml`, and `configs/evaluation.yaml`
+- [X] T010 Implement YAML configuration loader in `src/utils/config.py`
+- [X] T011 Create repository artifact ignore rules in `.gitignore` for generated audio, datasets, predictions, metrics, checkpoints, and large adapters under `data/`
+- [X] T012 Create initial project command smoke test in `tests/integration/test_setup_smoke.py` for importability of `src` packages and config loading
+- [X] T012.1 Create quickstart guide in `specs/001-speech-transit-toolformer/quickstart.md` with setup.
+- [X] T012.2 Create CLI package skeleton in `src/cli/` and define command names for contract validation, dataset generation, audio generation, pipelines A-D, and evaluation.
 
 **Checkpoint**: A clean environment can install dependencies and load all YAML configs without hardcoded local paths.
 

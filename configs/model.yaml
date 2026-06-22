@@ -1,0 +1,22 @@
+model:
+  id: google/gemma-3n-e4b-it
+  device: auto
+  dtype: bfloat16
+  trust_remote_code: true
+
+quantization:
+  enabled: true
+  mode: 4bit
+  load_in_4bit: true
+  compute_dtype: bfloat16
+
+decoding:
+  max_new_tokens: 256
+  temperature: 0.0
+  top_p: 1.0
+  do_sample: false
+
+prompt:
+  version: tool_call_v1
+  tool_name: transport.where_is_vehicle
+  schema_path: specs/001-speech-transit-toolformer/contracts/transport.where_is_vehicle.schema.json

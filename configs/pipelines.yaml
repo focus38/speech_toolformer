@@ -1,0 +1,24 @@
+common:
+  dataset_path: data/synthetic_text/test.jsonl
+  audio_metadata_path: data/synthetic_audio/metadata.jsonl
+  model_config_path: configs/model.yaml
+  predictions_dir: data/predictions
+
+pipelines:
+  A:
+    name: text_to_tool
+    input_path: data/synthetic_text/test.jsonl
+    output_path: data/predictions/pipeline_a_predictions.jsonl
+  B:
+    name: audio_to_transcript
+    input_path: data/synthetic_audio/metadata.jsonl
+    output_path: data/predictions/pipeline_b_predictions.jsonl
+  C:
+    name: audio_to_transcript_and_tool
+    input_path: data/synthetic_audio/metadata.jsonl
+    output_path: data/predictions/pipeline_c_predictions.jsonl
+  D:
+    name: audio_to_transcript_to_tool
+    input_path: data/synthetic_audio/metadata.jsonl
+    transcript_output_path: data/predictions/pipeline_d_transcripts.jsonl
+    output_path: data/predictions/pipeline_d_predictions.jsonl
