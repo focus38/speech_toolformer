@@ -39,6 +39,7 @@ def test_cli_command_names_are_registered() -> None:
     assert set(command_names()) == {
         "validate-contracts",
         "generate-text-dataset",
+        "validate-dataset",
         "generate-audio-dataset",
         "run-pipeline-a",
         "run-pipeline-b",

@@ -62,7 +62,8 @@ for name in command_names():
 PY
 ```
 
-The Phase 1 setup does not run model inference or generate datasets yet. Later phases add executable commands behind these registered names.
+Dataset generation and validation commands assume setup has completed and `.venv` exists at the repository root. Model inference, audio generation, pipeline runs, and evaluation are not part of Phase 3 text dataset generation.
+
 ## Phase 2 Contract Validation
 
 Validate the JSON Schema contracts, checked-in contract examples, Pydantic compatibility, and strict tool-call parser:
@@ -75,5 +76,40 @@ For the full current repository test suite:
 
 ```bash
 python -m pytest
+```
+## Phase 3 Text Dataset Generation
+
+Generate the deterministic synthetic text dataset from `configs/dataset.yaml`:
+
+```bash
+bash scripts/generate_text_dataset.sh
+```
+
+Validate the generated dataset files against the Pydantic models and `dataset-example.schema.json` contract:
+
+```bash
+./.venv/bin/python -m src.cli validate-dataset --config configs/dataset.yaml
+```
+
+Expected generated files:
+
+```text
+data/synthetic_text/dataset.jsonl
+data/synthetic_text/train.jsonl
+data/synthetic_text/validation.jsonl
+data/synthetic_text/test.jsonl
+reports/dataset_summary.md
+```
+
+Expected row counts with the default config are `dataset=240`, `train=168`, `validation=36`, and `test=36`.
+
+Run the Phase 3 text dataset checks:
+
+```bash
+./.venv/bin/python -m pytest \
+  tests/unit/test_text_dataset_generator.py \
+  tests/unit/test_dataset_summary.py \
+  tests/integration/test_text_dataset_validation.py \
+  tests/integration/test_dataset_reproducibility.py
 ```
 

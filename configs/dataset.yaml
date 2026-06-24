@@ -25,6 +25,10 @@ generation:
     - saint_petersburg
     - berlin
     - london
+    - samara
+    - voronezh
+    - paris
+    - ankara
   transport_types:
     - tram
     - trolleybus
@@ -36,13 +40,25 @@ generation:
       - "10"
       - "90"
       - "272"
+      - "120"
+      - "60"
+      - "45"
+      - "20"
     latin_suffix:
       - 55a
       - 80b
       - 90p
+      - 1a
+      - 2b
+      - 3c
+      - 10k
     cyrillic_suffix:
       - 90п
       - 55а
+      - 10к
+      - 20ц
+      - 120м
+      - 40М
 
 audio:
   sample_rate: 16000

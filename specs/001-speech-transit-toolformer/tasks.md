@@ -68,18 +68,18 @@
 
 **Purpose**: Generate a balanced, reproducible Russian and English text dataset with fixed splits and schema validation.
 
-- [ ] T037 Create text generator tests in `tests/unit/test_text_dataset_generator.py` for 200-300 examples, 10-20% no-tool examples, Russian and English coverage, split stability, route_number suffix coverage, and no `route` schema field
-- [ ] T038 Create dataset schema validation integration test in `tests/integration/test_text_dataset_validation.py` for generated JSONL files against `specs/001-speech-transit-toolformer/contracts/dataset-example.schema.json`
-- [ ] T039 Implement dataset template pools in `src/data/generators/templates.py` for Russian and English tool queries and no-tool distractors
-- [ ] T040 Implement slot sampling and balancing in `src/data/generators/slots.py` for cities, transport_type values, numeric route_number values, Latin suffixes, and Cyrillic suffixes
-- [ ] T041 Implement synthetic text dataset generator in `src/data/generators/text_dataset.py`
-- [ ] T042 Implement fixed split writer in `src/data/loaders/jsonl.py` for `data/synthetic_text/dataset.jsonl`, `train.jsonl`, `validation.jsonl`, and `test.jsonl`
-- [ ] T043 Implement dataset validation CLI in `src/data/validate_dataset.py`
-- [ ] T044 Create dataset generation script in `scripts/generate_text_dataset.sh` using `configs/dataset.yaml`
-- [ ] T045 Create dataset summary report writer in `src/data/generators/summary.py` for `reports/dataset_summary.md`
-- [ ] T046 Add reproducibility test in `tests/integration/test_dataset_reproducibility.py` comparing stable IDs and splits across repeated generation with the same seed
-- [ ] T046.1 Update quickstart guide in `specs/001-speech-transit-toolformer/quickstart.md` with text dataset generation.
-- [ ] T046.2 Implement Python CLI entry points for dataset generation, audio generation, pipeline runs, contract validation, and evaluation under `src/cli/`.
+- [X] T037 Create text generator tests in `tests/unit/test_text_dataset_generator.py` for 200-300 examples, 10-20% no-tool examples, Russian and English coverage, split stability, route_number suffix coverage, and no `route` schema field
+- [X] T038 Create dataset schema validation integration test in `tests/integration/test_text_dataset_validation.py` for generated JSONL files against `specs/001-speech-transit-toolformer/contracts/dataset-example.schema.json`
+- [X] T039 Implement dataset template pools in `src/data/generators/templates.py` for Russian and English tool queries and no-tool distractors
+- [X] T040 Implement slot sampling and balancing in `src/data/generators/slots.py` for cities, transport_type values, numeric route_number values, Latin suffixes, and Cyrillic suffixes
+- [X] T041 Implement synthetic text dataset generator in `src/data/generators/text_dataset.py`
+- [X] T042 Implement fixed split writer in `src/data/loaders/jsonl.py` for `data/synthetic_text/dataset.jsonl`, `train.jsonl`, `validation.jsonl`, and `test.jsonl`
+- [X] T043 Implement dataset validation CLI in `src/data/validate_dataset.py`
+- [X] T044 Create dataset generation script in `scripts/generate_text_dataset.sh` using `configs/dataset.yaml`
+- [X] T045 Create dataset summary report writer in `src/data/generators/summary.py` for `reports/dataset_summary.md`
+- [X] T046 Add reproducibility test in `tests/integration/test_dataset_reproducibility.py` comparing stable IDs and splits across repeated generation with the same seed
+- [X] T046.1 Update quickstart guide in `specs/001-speech-transit-toolformer/quickstart.md` with text dataset generation.
+- [X] T046.2 Implement Python CLI entry points for dataset generation, audio generation, pipeline runs, contract validation, and evaluation under `src/cli/`.
 
 **Checkpoint**: At least 200 text examples are generated, all examples validate, and train/validation/test splits are stable.
 
