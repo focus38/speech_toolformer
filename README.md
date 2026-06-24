@@ -39,7 +39,7 @@ Returns the current location information for a public transport route.
 Example query:
 
 ```text
-Где сейчас едет трамвай номер 5 в Иркутске?
+Где сейчас едет трамвай номер 7 в Москве?
 ```
 
 Expected tool call:
@@ -49,9 +49,9 @@ Expected tool call:
   "tool_call": {
     "name": "transport.where_is_vehicle",
     "arguments": {
-      "city": "irkutsk",
+      "city": "moscow",
       "transport_type": "tram",
-      "route_number": "5"
+      "route_number": "7"
     }
   }
 }
@@ -67,7 +67,7 @@ Expected tool call:
 Examples:
 
 ```text
-Где сейчас едет автобус 90п в Иркутске?
+Где сейчас едет автобус 90п во Владивостоке?
 Where is tram number 5 in Berlin?
 ```
 

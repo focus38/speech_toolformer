@@ -61,7 +61,7 @@
             "route_number": {
               "type": "string",
               "minLength": 1,
-              "pattern": "^[0-9]+[a-z]?$"
+              "pattern": "^[0-9]+[A-Za-zА-Яа-яЁё]?$"
             }
           }
         }
