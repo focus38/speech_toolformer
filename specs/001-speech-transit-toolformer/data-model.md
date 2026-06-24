@@ -116,7 +116,7 @@ Represents the structured result returned by the backend tool.
 ```json
 {
   "status": "ok",
-  "city": "irkutsk",
+  "city": "moscow",
   "transport_type": "tram",
   "route_number": "7",
   "nearest_stop": "Palikha Street",

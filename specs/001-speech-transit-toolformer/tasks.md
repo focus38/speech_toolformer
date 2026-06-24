@@ -35,30 +35,30 @@
 
 **Purpose**: Define strict Pydantic data models, synchronize JSON Schema contracts, implement parser validation, and create the deterministic mock tool.
 
-- [ ] T013 Create JSON Schema validation tests for checked-in schemas in `tests/contract/test_json_schemas.py`
-- [ ] T014 Create contract fixture tests for `specs/001-speech-transit-toolformer/contracts/transport.where_is_vehicle.schema.json` in `tests/contract/test_transport_schema_examples.py`
-- [ ] T015 Create contract fixture tests for `specs/001-speech-transit-toolformer/contracts/dataset-example.schema.json` in `tests/contract/test_dataset_schema_examples.py`
-- [ ] T016 Create contract fixture tests for `specs/001-speech-transit-toolformer/contracts/prediction.schema.json` in `tests/contract/test_prediction_schema_examples.py`
-- [ ] T017 Update route_number regex in `specs/001-speech-transit-toolformer/contracts/transport.where_is_vehicle.schema.json` to accept documented Cyrillic suffix examples such as `90п`
-- [ ] T018 Update route_number regex in `specs/001-speech-transit-toolformer/contracts/dataset-example.schema.json` to accept documented Cyrillic suffix examples such as `90п`
-- [ ] T019 Update route_number regex in `specs/001-speech-transit-toolformer/contracts/prediction.schema.json` to accept documented Cyrillic suffix examples such as `90п`
-- [ ] T020 [P] Create Pydantic tests for tool arguments and tool calls in `tests/unit/test_tool_call_models.py`
-- [ ] T021 [P] Create Pydantic tests for dataset examples and audio samples in `tests/unit/test_dataset_models.py`
-- [ ] T022 [P] Create Pydantic tests for prediction records and evaluation metrics in `tests/unit/test_prediction_metric_models.py`
-- [ ] T023 Implement shared enums in `src/data_models/enums.py` for language, split, transport_type, query_type, pipeline, parse_status, and tool result status
-- [ ] T024 Implement tool call models in `src/data_models/tool_call.py` using `city`, `transport_type`, and `route_number` fields only
-- [ ] T025 Implement tool result model in `src/data_models/tool_result.py` using `route_number` and deterministic status fields
-- [ ] T026 Implement user query, dataset example, and audio sample models in `src/data_models/user_query.py`, `src/data_models/dataset_example.py`, and `src/data_models/audio_sample.py`
-- [ ] T027 Implement pipeline prediction and evaluation metric models in `src/data_models/pipeline_prediction.py` and `src/data_models/evaluation_metrics.py`
-- [ ] T028 Create Pydantic-to-contract compatibility tests in `tests/contract/test_pydantic_contract_compatibility.py`
-- [ ] T029 Create parser success and failure tests in `tests/unit/test_tool_parser.py` for valid JSON, invalid JSON, markdown-wrapped JSON, extra fields, wrong tool name, missing arguments, invalid transport_type, no-tool output, and route_number suffix cases
-- [ ] T030 Implement normalization helpers in `src/tools/parser/normalization.py` for city, transport_type aliases, and route_number suffix handling
-- [ ] T031 Implement strict tool-call parser in `src/tools/parser/json_parser.py` with raw output preservation, parse statuses, schema validation, and optional single repair retry flag
-- [ ] T032 Create mock transport service tests in `tests/unit/test_mock_transport_service.py` for stable outputs, not-found cases, and route_number preservation
-- [ ] T033 Implement deterministic mock `transport.where_is_vehicle` service in `src/tools/transport/mock_service.py`
-- [ ] T034 Implement final answer formatting tests in `tests/unit/test_final_answer_formatter.py` to ensure answers are grounded only in `ToolResult` fields
-- [ ] T035 Implement final answer formatter in `src/tools/transport/answer_formatter.py`
-- [ ] T036 Add contract validation command in `scripts/validate_contracts.sh` for JSON Schema, Pydantic compatibility, and parser fixture tests
+- [X] T013 Create JSON Schema validation tests for checked-in schemas in `tests/contract/test_json_schemas.py`
+- [X] T014 Create contract fixture tests for `specs/001-speech-transit-toolformer/contracts/transport.where_is_vehicle.schema.json` in `tests/contract/test_transport_schema_examples.py`
+- [X] T015 Create contract fixture tests for `specs/001-speech-transit-toolformer/contracts/dataset-example.schema.json` in `tests/contract/test_dataset_schema_examples.py`
+- [X] T016 Create contract fixture tests for `specs/001-speech-transit-toolformer/contracts/prediction.schema.json` in `tests/contract/test_prediction_schema_examples.py`
+- [X] T017 Update route_number regex in `specs/001-speech-transit-toolformer/contracts/transport.where_is_vehicle.schema.json` to accept documented Cyrillic suffix examples such as `90п`
+- [X] T018 Update route_number regex in `specs/001-speech-transit-toolformer/contracts/dataset-example.schema.json` to accept documented Cyrillic suffix examples such as `90п`
+- [X] T019 Update route_number regex in `specs/001-speech-transit-toolformer/contracts/prediction.schema.json` to accept documented Cyrillic suffix examples such as `90п`
+- [X] T020 [P] Create Pydantic tests for tool arguments and tool calls in `tests/unit/test_tool_call_models.py`
+- [X] T021 [P] Create Pydantic tests for dataset examples and audio samples in `tests/unit/test_dataset_models.py`
+- [X] T022 [P] Create Pydantic tests for prediction records and evaluation metrics in `tests/unit/test_prediction_metric_models.py`
+- [X] T023 Implement shared enums in `src/data_models/enums.py` for language, split, transport_type, query_type, pipeline, parse_status, and tool result status
+- [X] T024 Implement tool call models in `src/data_models/tool_call.py` using `city`, `transport_type`, and `route_number` fields only
+- [X] T025 Implement tool result model in `src/data_models/tool_result.py` using `route_number` and deterministic status fields
+- [X] T026 Implement user query, dataset example, and audio sample models in `src/data_models/user_query.py`, `src/data_models/dataset_example.py`, and `src/data_models/audio_sample.py`
+- [X] T027 Implement pipeline prediction and evaluation metric models in `src/data_models/pipeline_prediction.py` and `src/data_models/evaluation_metrics.py`
+- [X] T028 Create Pydantic-to-contract compatibility tests in `tests/contract/test_pydantic_contract_compatibility.py`
+- [X] T029 Create parser success and failure tests in `tests/unit/test_tool_parser.py` for valid JSON, invalid JSON, markdown-wrapped JSON, extra fields, wrong tool name, missing arguments, invalid transport_type, no-tool output, and route_number suffix cases
+- [X] T030 Implement normalization helpers in `src/tools/parser/normalization.py` for city, transport_type aliases, and route_number suffix handling
+- [X] T031 Implement strict tool-call parser in `src/tools/parser/json_parser.py` with raw output preservation, parse statuses, schema validation, and optional single repair retry flag
+- [X] T032 Create mock transport service tests in `tests/unit/test_mock_transport_service.py` for stable outputs, not-found cases, and route_number preservation
+- [X] T033 Implement deterministic mock `transport.where_is_vehicle` service in `src/tools/transport/mock_service.py`
+- [X] T034 Implement final answer formatting tests in `tests/unit/test_final_answer_formatter.py` to ensure answers are grounded only in `ToolResult` fields
+- [X] T035 Implement final answer formatter in `src/tools/transport/answer_formatter.py`
+- [X] T036 Add contract validation command in `scripts/validate_contracts.sh` for JSON Schema, Pydantic compatibility, and parser fixture tests
 
 **Checkpoint**: Tool calls validate strictly, parser failures are measurable, and the mock transport tool returns stable structured results.
 

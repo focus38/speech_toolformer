@@ -63,3 +63,17 @@ PY
 ```
 
 The Phase 1 setup does not run model inference or generate datasets yet. Later phases add executable commands behind these registered names.
+## Phase 2 Contract Validation
+
+Validate the JSON Schema contracts, checked-in contract examples, Pydantic compatibility, and strict tool-call parser:
+
+```bash
+bash scripts/validate_contracts.sh
+```
+
+For the full current repository test suite:
+
+```bash
+python -m pytest
+```
+

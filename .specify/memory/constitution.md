@@ -96,6 +96,26 @@ Optional libraries:
 * GPU runtime should be used whenever available.
 * The implementation should remain runnable on free or low-cost Colab environments.
 
+### Python Environment
+
+The repository uses a project-local virtual environment located at:
+
+.venv/
+
+All Python commands, scripts, linters, and tests must be executed using the interpreter from this environment.
+
+Preferred commands:
+
+```bash
+./.venv/bin/python -m pytest
+./.venv/bin/python -m pip install -r requirements.txt
+./.venv/bin/python -m src.cli.<command>
+```
+The agent must never assume that python, python3, pytest, or pip
+from the system PATH contain the required dependencies.
+
+If .venv exists, it should always be preferred over the system Python.
+
 ### Version Control
 
 * Git
