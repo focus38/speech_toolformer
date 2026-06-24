@@ -1,3 +1,35 @@
-from src.cli.commands import CLI_COMMANDS, CommandSpec, command_names
+from src.cli.commands import (
+    CLI_COMMANDS,
+    COMMAND_HANDLERS,
+    CommandNotImplementedError,
+    CommandSpec,
+    command_names,
+    dispatch,
+    evaluate_command,
+    generate_audio_dataset_command,
+    generate_text_dataset_command,
+    run_pipeline_a_command,
+    run_pipeline_b_command,
+    run_pipeline_c_command,
+    run_pipeline_d_command,
+    validate_contracts_command,
+    validate_dataset_command,
+)
 
-__all__ = ["CLI_COMMANDS", "CommandSpec", "command_names"]
+__all__ = [
+    "CLI_COMMANDS",
+    "COMMAND_HANDLERS",
+    "CommandNotImplementedError",
+    "CommandSpec",
+    "command_names",
+    "dispatch",
+    "evaluate_command",
+    "generate_audio_dataset_command",
+    "generate_text_dataset_command",
+    "run_pipeline_a_command",
+    "run_pipeline_b_command",
+    "run_pipeline_c_command",
+    "run_pipeline_d_command",
+    "validate_contracts_command",
+    "validate_dataset_command",
+]
