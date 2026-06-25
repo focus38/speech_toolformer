@@ -11,7 +11,6 @@ def test_all_registered_commands_have_dispatch_handlers() -> None:
 def test_later_phase_cli_entry_points_fail_explicitly_without_implementing_future_work() -> None:
     expected_messages = {
         "generate-audio-dataset": "Phase 5",
-        "run-pipeline-a": "Phase 4",
         "run-pipeline-b": "Phase 6",
         "run-pipeline-c": "Phase 6",
         "run-pipeline-d": "Phase 6",
@@ -24,7 +23,7 @@ def test_later_phase_cli_entry_points_fail_explicitly_without_implementing_futur
 
 
 def test_cli_main_returns_nonzero_for_later_phase_entry_point(capsys: pytest.CaptureFixture[str]) -> None:
-    exit_code = main(["run-pipeline-a"])
+    exit_code = main(["run-pipeline-b"])
 
     assert exit_code == 2
-    assert "scheduled for Phase 4" in capsys.readouterr().err
+    assert "scheduled for Phase 6" in capsys.readouterr().err

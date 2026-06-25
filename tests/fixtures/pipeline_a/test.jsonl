@@ -1,0 +1,2 @@
+{"id":"fixture_tool_001","split":"test","language":"en","user_text":"Where is bus 272 in London?","needs_tool":true,"query_type":"tool","expected_tool_call":{"name":"transport.where_is_vehicle","arguments":{"city":"london","transport_type":"bus","route_number":"272"}},"expected_final_answer":null,"slots":null,"audio":null}
+{"id":"fixture_no_tool_001","split":"test","language":"en","user_text":"What time does the tram start running?","needs_tool":false,"query_type":"no_tool","expected_tool_call":null,"expected_final_answer":null,"slots":null,"audio":null}
