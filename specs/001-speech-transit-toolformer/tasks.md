@@ -89,19 +89,22 @@
 
 **Purpose**: Run text query to model to tool-call baseline with prompt schema, prediction logging, and text tool-use metrics.
 
-- [ ] T047 Create prompt rendering tests in `tests/unit/test_prompt_templates.py` for schema inclusion, tool/no-tool instructions, JSON-only tool-call mode, and route_number wording
-- [ ] T048 Implement prompt templates in `src/models/prompts/tool_call_v1.py`
-- [ ] T049 Create model inference wrapper smoke tests in `tests/unit/test_text_inference_wrapper.py` using a stub model response
-- [ ] T050 Implement text inference wrapper in `src/models/inference/text_model.py`
-- [ ] T051 Create Pipeline A smoke test in `tests/integration/test_pipeline_a_smoke.py` using a tiny fixture dataset and stub inference backend
-- [ ] T052 Implement Pipeline A runner in `src/pipelines/pipeline_a/runner.py`
-- [ ] T053 Create Pipeline A shell entry point in `scripts/run_pipeline_a.sh`
-- [ ] T054 Create prediction logging tests in `tests/unit/test_prediction_writer.py` for `data/predictions/pipeline_a_predictions.jsonl` records against `specs/001-speech-transit-toolformer/contracts/prediction.schema.json`
-- [ ] T055 Implement prediction writer in `src/pipelines/common/prediction_writer.py`
-- [ ] T056 Create tool-use metric tests in `tests/evaluation/test_tool_metrics.py` for parsable invocation rate, exact-match accuracy, precision, recall, false_alarm_rate, city accuracy, transport_type accuracy, and route_number accuracy
-- [ ] T057 Implement tool-use metrics in `src/evaluation/metrics/tool_use.py`
-- [ ] T058 Create Pipeline A metric integration test in `tests/integration/test_pipeline_a_metrics.py` over fixture predictions
-- [ ] T058.1 Update quickstart guide in `specs/001-speech-transit-toolformer/quickstart.md` with pipeline A runs.
+- [X] T047 Create prompt rendering tests in `tests/unit/test_prompt_templates.py` for schema inclusion, tool/no-tool instructions, JSON-only tool-call mode, and route_number wording
+- [X] T048 Implement prompt templates in `src/models/prompts/tool_call_v1.py`
+- [X] T049 Create model inference wrapper smoke tests in `tests/unit/test_text_inference_wrapper.py` using a stub model response
+- [X] T050 Implement text inference wrapper in `src/models/inference/text_model.py`
+- [X] T051 Create Pipeline A smoke test in `tests/integration/test_pipeline_a_smoke.py` using a tiny fixture dataset and stub inference backend
+- [X] T052 Implement Pipeline A runner in `src/pipelines/pipeline_a/runner.py`
+- [X] T053 Create Pipeline A shell entry point in `scripts/run_pipeline_a.sh`
+- [X] T054 Create prediction logging tests in `tests/unit/test_prediction_writer.py` for `data/predictions/pipeline_a_predictions.jsonl` records against `specs/001-speech-transit-toolformer/contracts/prediction.schema.json`
+- [X] T055 Implement prediction writer in `src/pipelines/common/prediction_writer.py`
+- [X] T056 Create tool-use metric tests in `tests/evaluation/test_tool_metrics.py` for parsable invocation rate, exact-match accuracy, precision, recall, false_alarm_rate, city accuracy, transport_type accuracy, and route_number accuracy
+- [X] T057 Implement tool-use metrics in `src/evaluation/metrics/tool_use.py`
+- [X] T058 Create Pipeline A metric integration test in `tests/integration/test_pipeline_a_metrics.py` over fixture predictions
+- [X] T058.1 Update quickstart guide in `specs/001-speech-transit-toolformer/quickstart.md` with pipeline A runs.
+- [X] T058.2 Implement real Gemma-3n text backend in `src/models/inference/text_model.py` using `configs/model.yaml`, with quantization/device settings and safe Colab defaults.
+- [X] T058.3 Create manual real-model smoke script in `scripts/smoke_real_text_model.sh` that runs one or two text prompts through Gemma-3n and prints raw output without requiring the full dataset.
+- [X] T058.4 Document first real Gemma-3n inference in `specs/001-speech-transit-toolformer/quickstart.md`, including expected command, GPU/Colab notes, and fallback to stub backend.
 
 **Checkpoint**: Pipeline A produces contract-valid predictions and reports text tool-use metrics on a fixed test split.
 

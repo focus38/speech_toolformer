@@ -113,3 +113,51 @@ Run the Phase 3 text dataset checks:
   tests/integration/test_dataset_reproducibility.py
 ```
 
+## Phase 4 Pipeline A Baseline
+
+Run Pipeline A over the fixed text test split from `configs/pipelines.yaml`:
+
+```bash
+bash scripts/run_pipeline_a.sh
+```
+
+Expected prediction output path:
+
+```text
+data/predictions/pipeline_a_predictions.jsonl
+```
+
+The prediction file contains one JSONL `PipelinePrediction` record per `data/synthetic_text/test.jsonl` example, including `raw_output`, `predicted_tool_call`, `parse_status`, `latency_seconds`, and `created_at`. Pipeline A metrics are computed from saved dataset and prediction records, not notebook state.
+
+Run the Phase 4 Pipeline A metric checks:
+
+```bash
+./.venv/bin/python -m pytest \
+  tests/evaluation/test_tool_metrics.py \
+  tests/integration/test_pipeline_a_metrics.py
+```
+
+If `./.venv/bin/python` is missing, run `bash scripts/setup.sh` from the repository root and retry the command. If the virtual environment exists but imports fail, reinstall pinned dependencies with `./.venv/bin/python -m pip install -r requirements.txt`. In Google Colab, where setup may run with `USE_VENV=0`, use the active notebook Python for ad hoc checks but keep repository scripts unchanged for local reproducibility.
+
+### Real Gemma-3n Text Smoke
+
+Run a tiny manual real-model smoke test without processing the full dataset:
+
+```bash
+bash scripts/smoke_real_text_model.sh
+```
+
+The script uses `./.venv/bin/python`, reads `configs/model.yaml`, and runs these prompts:
+
+```text
+Где сейчас едет трамвай номер 7 в Москве?
+What is a trolleybus?
+```
+
+It prints the raw model output and the parser result for each prompt. The configured default model is `google/gemma-3n-e4b-it` with 4-bit quantization settings from `configs/model.yaml`; use a GPU runtime for this smoke test, preferably Colab with enough VRAM. The first run may download model weights and can require Hugging Face access for the model.
+
+If local hardware or model access is unavailable, keep using the stub backend tests for deterministic development:
+
+```bash
+./.venv/bin/python -m pytest tests/unit/test_text_inference_wrapper.py tests/integration/test_pipeline_a_smoke.py
+```
