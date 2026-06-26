@@ -1,5 +1,5 @@
 model:
-  id: unsloth/gemma-3n-E2B-unsloth-bnb-4bit
+  id: google/gemma-3n-E4B-it
   device: auto
   dtype: auto
   trust_remote_code: true

@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[2]
 def test_model_config_contains_required_defaults() -> None:
     config = load_config("model")
 
-    assert config["model"]["id"] == "unsloth/gemma-3n-E2B-unsloth-bnb-4bit"
+    assert config["model"]["id"] == "google/gemma-3n-E4B-it"
     assert "max_new_tokens" in config["decoding"]
     assert config["prompt"]["version"] == "tool_call_v1"
 

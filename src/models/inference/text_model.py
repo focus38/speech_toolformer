@@ -81,7 +81,7 @@ class Gemma3nTextBackend:
     def __init__(
         self,
         *,
-        model_name: str = "unsloth/gemma-3n-E2B-unsloth-bnb-4bit",
+        model_name: str = "google/gemma-3n-E4B-it",
         device: str = "auto",
         dtype: str = "bfloat16",
         trust_remote_code: bool = True,
@@ -102,7 +102,7 @@ class Gemma3nTextBackend:
     def from_config(cls, config: Mapping[str, Any]) -> "Gemma3nTextBackend":
         model_config = dict(config.get("model", {}))
         return cls(
-            model_name=str(model_config.get("id", "unsloth/gemma-3n-E2B-unsloth-bnb-4bit")),
+            model_name=str(model_config.get("id", "google/gemma-3n-E4B-it")),
             device=str(model_config.get("device", "auto")),
             dtype=str(model_config.get("dtype", "bfloat16")),
             trust_remote_code=bool(model_config.get("trust_remote_code", True)),
@@ -112,16 +112,21 @@ class Gemma3nTextBackend:
     def _load(self) -> None:
         if self._model is not None and self._tokenizer is not None:
             return
-        # Настраиваем автоматический или явный device_map для bnb 4-bit
-        # bitsandbytes требует device_map для правильной инициализации слоев
-        if self.device == "cuda" or self.device == "auto":
-            device_map = "auto"
-        else:
-            device_map = {"": self.device}
+
+        from transformers import BitsAndBytesConfig
+
+        # Настраиваем нативное bnb 4-bit квантование для оригинальной модели
+        quantization_config = BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_compute_dtype=_torch_dtype(self.dtype),
+            bnb_4bit_quant_type="nf4",
+            bnb_4bit_use_double_quant=True,
+        )
         model_kwargs: dict[str, Any] = {
             "trust_remote_code": self.trust_remote_code,
             "dtype": _torch_dtype(self.dtype),
-            "device_map": device_map,
+            "quantization_config": quantization_config,
+            "device_map": "auto",
         }
 
         if "gemma-3n" in self.model_name.lower():
