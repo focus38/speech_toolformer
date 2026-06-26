@@ -88,7 +88,10 @@ class Gemma3nTextBackend:
         decoding_config: Mapping[str, Any] | None = None,
     ) -> None:
         self.model_name = model_name
-        self.device = device
+        if device == "auto":
+            self.device = "cuda" if torch.cuda.is_available() else "cpu"
+        else:
+            self.device = device
         self.dtype = dtype
         self.trust_remote_code = trust_remote_code
         self.decoding_config = dict(decoding_config or {})
@@ -119,13 +122,13 @@ class Gemma3nTextBackend:
             try:
                 from transformers import AutoModelForImageTextToText, AutoProcessor
 
-                print(f"Load tokenizer for model name {self.model_name}")
+                print(f"\nLoad tokenizer for model name {self.model_name}")
                 self._tokenizer = AutoProcessor.from_pretrained(
                     self.model_name,
                     trust_remote_code=self.trust_remote_code,
                 )
 
-                print(f"Load AutoModelForImageTextToText for model {self.model_name}")
+                print(f"\nLoad AutoModelForImageTextToText for model {self.model_name}")
                 self._model = AutoModelForImageTextToText.from_pretrained(self.model_name, **model_kwargs)
             except (ImportError, ValueError):
                 self._load_causal_lm(model_kwargs)

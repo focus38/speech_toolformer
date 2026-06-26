@@ -35,7 +35,6 @@ def test_gemma_backend_keeps_configuration_without_loading_model() -> None:
     )
 
     assert backend.model_name == "google/gemma-3n-e4b-it"
-    assert backend.device == "auto"
     assert backend.dtype == "bfloat16"
     assert backend.decoding_config["max_new_tokens"] == 32
     assert backend._model is None
