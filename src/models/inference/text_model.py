@@ -88,10 +88,7 @@ class Gemma3nTextBackend:
         decoding_config: Mapping[str, Any] | None = None,
     ) -> None:
         self.model_name = model_name
-        if device == "auto":
-            self.device = "cuda" if torch.cuda.is_available() else "cpu"
-        else:
-            self.device = device
+        self.device = device
         self.dtype = dtype
         self.trust_remote_code = trust_remote_code
         self.decoding_config = dict(decoding_config or {})
@@ -109,16 +106,28 @@ class Gemma3nTextBackend:
             decoding_config=config.get("decoding", {}),
         )
 
+    def _device_map(self) -> str | None:
+        if self.device == "auto":
+            return "auto"
+        return None
+
     def _load(self) -> None:
         if self._model is not None and self._tokenizer is not None:
             return
 
         from transformers import BitsAndBytesConfig
 
+        # Получаем тип данных из конфига
+        compute_dtype = _torch_dtype(self.dtype)
+
+        # Если тип данных "auto", принудительно переключаем на bfloat16 (или float16)
+        if compute_dtype == "auto":
+            compute_dtype = torch.float16
+
         # Настраиваем нативное bnb 4-bit квантование для оригинальной модели
         quantization_config = BitsAndBytesConfig(
             load_in_4bit=True,
-            bnb_4bit_compute_dtype=_torch_dtype(self.dtype),
+            bnb_4bit_compute_dtype=compute_dtype,
             bnb_4bit_quant_type="nf4",
             bnb_4bit_use_double_quant=True,
         )
@@ -128,6 +137,9 @@ class Gemma3nTextBackend:
             "quantization_config": quantization_config,
             "device_map": "auto",
         }
+        device_map = self._device_map()
+        if device_map is not None:
+            model_kwargs["device_map"] = device_map
 
         if "gemma-3n" in self.model_name.lower():
             try:
