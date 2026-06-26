@@ -3,6 +3,7 @@ from __future__ import annotations
 from collections.abc import Callable, Mapping, Sequence
 from typing import Any, Protocol
 
+import torch
 from pydantic import BaseModel
 
 from src.data_models.base import STRICT_MODEL_CONFIG, StrictNonEmptyStr, StrictStr
@@ -51,8 +52,6 @@ class StubTextBackend:
 
 
 def _torch_dtype(dtype_name: str) -> Any:
-    import torch
-
     dtype_map = {
         "auto": "auto",
         "float16": torch.float16,
@@ -66,30 +65,6 @@ def _torch_dtype(dtype_name: str) -> Any:
         return dtype_map[dtype_name.lower()]
     except KeyError as exc:
         raise ValueError(f"Unsupported torch dtype in model config: {dtype_name}") from exc
-
-
-def _quantization_kwargs(config: Mapping[str, Any]) -> dict[str, Any]:
-    if not config or not bool(config.get("enabled", False)):
-        return {}
-
-    mode = str(config.get("mode", "")).lower()
-    if mode not in {"4bit", "8bit"}:
-        raise ValueError(f"Unsupported quantization mode: {mode}")
-
-    from transformers import BitsAndBytesConfig
-
-    if mode == "4bit":
-        return {
-            "quantization_config": BitsAndBytesConfig(
-                load_in_4bit=bool(config.get("load_in_4bit", True)),
-                bnb_4bit_compute_dtype=_torch_dtype(str(config.get("compute_dtype", "bfloat16"))),
-            )
-        }
-
-    return {
-        "quantization_config": BitsAndBytesConfig(load_in_8bit=True)
-    }
-
 
 def _generation_config(config: Mapping[str, Any]) -> dict[str, Any]:
     allowed_keys = {"max_new_tokens", "temperature", "top_p", "do_sample"}
@@ -106,18 +81,16 @@ class Gemma3nTextBackend:
     def __init__(
         self,
         *,
-        model_name: str = "google/gemma-3n-e4b-it",
+        model_name: str = "unsloth/gemma-3n-E2B-unsloth-bnb-4bit",
         device: str = "auto",
         dtype: str = "bfloat16",
         trust_remote_code: bool = True,
-        quantization_config: Mapping[str, Any] | None = None,
         decoding_config: Mapping[str, Any] | None = None,
     ) -> None:
         self.model_name = model_name
         self.device = device
         self.dtype = dtype
         self.trust_remote_code = trust_remote_code
-        self.quantization_config = dict(quantization_config or {})
         self.decoding_config = dict(decoding_config or {})
         self._tokenizer: Any | None = None
         self._model: Any | None = None
@@ -126,18 +99,12 @@ class Gemma3nTextBackend:
     def from_config(cls, config: Mapping[str, Any]) -> "Gemma3nTextBackend":
         model_config = dict(config.get("model", {}))
         return cls(
-            model_name=str(model_config.get("id", "google/gemma-3n-e4b-it")),
+            model_name=str(model_config.get("id", "unsloth/gemma-3n-E2B-unsloth-bnb-4bit")),
             device=str(model_config.get("device", "auto")),
             dtype=str(model_config.get("dtype", "bfloat16")),
             trust_remote_code=bool(model_config.get("trust_remote_code", True)),
-            quantization_config=config.get("quantization", {}),
             decoding_config=config.get("decoding", {}),
         )
-
-    def _device_map(self) -> str | None:
-        if self.device == "auto":
-            return "auto"
-        return None
 
     def _load(self) -> None:
         if self._model is not None and self._tokenizer is not None:
@@ -145,33 +112,30 @@ class Gemma3nTextBackend:
 
         model_kwargs: dict[str, Any] = {
             "trust_remote_code": self.trust_remote_code,
-            "torch_dtype": _torch_dtype(self.dtype),
+            "dtype": _torch_dtype(self.dtype),
         }
-        device_map = self._device_map()
-        if device_map is not None:
-            model_kwargs["device_map"] = device_map
-        model_kwargs.update(_quantization_kwargs(self.quantization_config))
 
         if "gemma-3n" in self.model_name.lower():
             try:
                 from transformers import AutoModelForImageTextToText, AutoProcessor
 
+                print(f"Load tokenizer for model name {self.model_name}")
                 self._tokenizer = AutoProcessor.from_pretrained(
                     self.model_name,
                     trust_remote_code=self.trust_remote_code,
                 )
+
+                print(f"Load AutoModelForImageTextToText for model {self.model_name}")
                 self._model = AutoModelForImageTextToText.from_pretrained(self.model_name, **model_kwargs)
             except (ImportError, ValueError):
                 self._load_causal_lm(model_kwargs)
         else:
             self._load_causal_lm(model_kwargs)
 
-        if device_map is None:
-            import torch
+        target_device = torch.device(self.device)
+        self._model.to(target_device)
 
-            target_device = torch.device(self.device)
-            self._model.to(target_device)
-
+        print("The model is switched to EVAL mode.")
         self._model.eval()
 
     def _load_causal_lm(self, model_kwargs: Mapping[str, Any]) -> None:
@@ -181,15 +145,13 @@ class Gemma3nTextBackend:
             self.model_name,
             trust_remote_code=self.trust_remote_code,
         )
-        self._model = AutoModelForCausalLM.from_pretrained(self.model_name, **dict(model_kwargs))
+        self._model = AutoModelForCausalLM.from_pretrained(self.model_name, **model_kwargs)
 
     def _move_encoded_inputs(self, encoded: Mapping[str, Any]) -> dict[str, Any]:
         moved = dict(encoded)
         if hasattr(self._model, "device"):
             target_device = self._model.device
         elif self.device != "auto":
-            import torch
-
             target_device = torch.device(self.device)
         else:
             return moved
@@ -219,8 +181,6 @@ class Gemma3nTextBackend:
         self._load()
         assert self._model is not None
         assert self._tokenizer is not None
-
-        import torch
 
         encoded = self._encode_prompt(prompt)
         encoded = self._move_encoded_inputs(encoded)

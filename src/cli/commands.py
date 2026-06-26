@@ -10,6 +10,7 @@ from src.data.generators.summary import DEFAULT_SUMMARY_PATH, write_dataset_summ
 from src.data.generators.text_dataset import generate_text_dataset
 from src.data.loaders.jsonl import write_text_dataset_splits
 from src.data.validate_dataset import validate_dataset_outputs
+from src.data_models import PipelinePrediction
 from src.models.inference.text_model import build_text_inference_from_config
 from src.pipelines.pipeline_a.runner import run_pipeline_a
 from src.utils.config import PROJECT_ROOT, load_yaml_config
@@ -86,7 +87,7 @@ def generate_audio_dataset_command(config_path: str | Path = "configs/dataset.ya
     raise CommandNotImplementedError("generate-audio-dataset is scheduled for Phase 5")
 
 
-def run_pipeline_a_command(config_path: str | Path = "configs/pipelines.yaml") -> list[dict[str, Any]]:
+def run_pipeline_a_command(config_path: str | Path = "configs/pipelines.yaml") -> list[PipelinePrediction]:
     pipeline_config = load_yaml_config(config_path)
     model_config_path = pipeline_config.get("common", {}).get("model_config_path", "configs/model.yaml")
     model_config = load_yaml_config(model_config_path)

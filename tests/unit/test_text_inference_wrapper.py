@@ -30,7 +30,6 @@ def test_gemma_backend_keeps_configuration_without_loading_model() -> None:
                 "dtype": "bfloat16",
                 "trust_remote_code": True,
             },
-            "quantization": {"enabled": True, "mode": "4bit", "load_in_4bit": True},
             "decoding": {"max_new_tokens": 32, "temperature": 0.0, "do_sample": False},
         }
     )
@@ -38,7 +37,6 @@ def test_gemma_backend_keeps_configuration_without_loading_model() -> None:
     assert backend.model_name == "google/gemma-3n-e4b-it"
     assert backend.device == "auto"
     assert backend.dtype == "bfloat16"
-    assert backend.quantization_config["mode"] == "4bit"
     assert backend.decoding_config["max_new_tokens"] == 32
     assert backend._model is None
     assert backend._tokenizer is None

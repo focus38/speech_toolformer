@@ -3,6 +3,8 @@ from __future__ import annotations
 from pathlib import Path
 from time import perf_counter
 
+from tqdm import tqdm
+
 from src.data.loaders.jsonl import read_jsonl
 from src.data_models import DatasetExample, PipelinePrediction
 from src.data_models.enums import Pipeline, Split
@@ -26,7 +28,7 @@ def run_pipeline_a(
         )
 
     records: list[PipelinePrediction] = []
-    for example in examples:
+    for example in tqdm(examples, desc="Processing pipeline A", unit="dataset item"):
         prompt = render_tool_call_prompt(example.user_text)
         started_at = perf_counter()
         result = inference.generate(prompt)

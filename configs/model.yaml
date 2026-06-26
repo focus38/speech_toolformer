@@ -1,14 +1,8 @@
 model:
-  id: google/gemma-3n-e4b-it
+  id: unsloth/gemma-3n-E2B-unsloth-bnb-4bit
   device: auto
-  dtype: bfloat16
+  dtype: auto
   trust_remote_code: true
-
-quantization:
-  enabled: true
-  mode: 4bit
-  load_in_4bit: true
-  compute_dtype: bfloat16
 
 decoding:
   max_new_tokens: 256

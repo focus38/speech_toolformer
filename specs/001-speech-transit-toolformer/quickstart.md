@@ -154,7 +154,10 @@ The script uses `./.venv/bin/python`, reads `configs/model.yaml`, and runs these
 What is a trolleybus?
 ```
 
-It prints the raw model output and the parser result for each prompt. The configured default model is `google/gemma-3n-e4b-it` with 4-bit quantization settings from `configs/model.yaml`; use a GPU runtime for this smoke test, preferably Colab with enough VRAM. The first run may download model weights and can require Hugging Face access for the model.
+It prints the raw model output and the parser result for each prompt.
+The configured default model is `unsloth/gemma-3n-E2B-unsloth-bnb-4bit` with 4-bit quantization settings from `configs/model.yaml`;
+use a GPU runtime for this smoke test, preferably Colab with enough VRAM.
+The first run may download model weights and can require Hugging Face access for the model.
 
 If local hardware or model access is unavailable, keep using the stub backend tests for deterministic development:
 
