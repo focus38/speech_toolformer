@@ -112,10 +112,16 @@ class Gemma3nTextBackend:
     def _load(self) -> None:
         if self._model is not None and self._tokenizer is not None:
             return
-
+        # Настраиваем автоматический или явный device_map для bnb 4-bit
+        # bitsandbytes требует device_map для правильной инициализации слоев
+        if self.device == "cuda" or self.device == "auto":
+            device_map = "auto"
+        else:
+            device_map = {"": self.device}
         model_kwargs: dict[str, Any] = {
             "trust_remote_code": self.trust_remote_code,
             "dtype": _torch_dtype(self.dtype),
+            "device_map": device_map,
         }
 
         if "gemma-3n" in self.model_name.lower():
@@ -135,8 +141,8 @@ class Gemma3nTextBackend:
         else:
             self._load_causal_lm(model_kwargs)
 
-        target_device = torch.device(self.device)
-        self._model.to(target_device)
+        if hasattr(self._model, "device"):
+            self.device = str(self._model.device)
 
         print("The model is switched to EVAL mode.")
         self._model.eval()
