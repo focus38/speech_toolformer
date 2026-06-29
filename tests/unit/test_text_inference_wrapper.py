@@ -1,5 +1,5 @@
 from src.models.inference.text_model import (
-    Gemma3nTextBackend,
+    LLMTextBackend,
     StubTextBackend,
     TextModelInference,
 )
@@ -22,7 +22,7 @@ def test_stub_text_inference_preserves_raw_output_and_metadata() -> None:
 
 
 def test_gemma_backend_keeps_configuration_without_loading_model() -> None:
-    backend = Gemma3nTextBackend.from_config(
+    backend = LLMTextBackend.from_config(
         {
             "model": {
                 "id": "google/gemma-3n-e4b-it",
@@ -30,12 +30,15 @@ def test_gemma_backend_keeps_configuration_without_loading_model() -> None:
                 "dtype": "bfloat16",
                 "trust_remote_code": True,
             },
+            "load": {"low_cpu_mem_usage": True, "attn_implementation": "sdpa", "quantization": {"enabled": False}},
             "decoding": {"max_new_tokens": 32, "temperature": 0.0, "do_sample": False},
         }
     )
 
     assert backend.model_name == "google/gemma-3n-e4b-it"
     assert backend.dtype == "bfloat16"
+    assert backend.load_config["low_cpu_mem_usage"] == True
+    assert backend.load_config["quantization"]["enabled"] == False
     assert backend.decoding_config["max_new_tokens"] == 32
     assert backend._model is None
     assert backend._tokenizer is None

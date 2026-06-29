@@ -89,7 +89,7 @@ def generate_audio_dataset_command(config_path: str | Path = "configs/dataset.ya
 
 def run_pipeline_a_command(config_path: str | Path = "configs/pipelines.yaml") -> list[PipelinePrediction]:
     pipeline_config = load_yaml_config(config_path)
-    model_config_path = pipeline_config.get("common", {}).get("model_config_path", "configs/model.yaml")
+    model_config_path = pipeline_config.get("common", {}).get("model_config_path", "configs/reference_model.yaml")
     model_config = load_yaml_config(model_config_path)
     pipeline_a_config = pipeline_config["pipelines"]["A"]
     inference = build_text_inference_from_config(model_config)

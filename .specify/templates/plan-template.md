@@ -271,7 +271,8 @@ docs/
 └── project_brief.md
 
 configs/
-├── model.yaml
+├── fast_model.yaml
+├── reference_model.yaml
 ├── dataset.yaml
 ├── pipelines.yaml
 └── evaluation.yaml

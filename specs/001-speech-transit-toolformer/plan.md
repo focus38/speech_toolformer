@@ -278,7 +278,8 @@ specs/001-speech-transit-toolformer/
 
 ```text
 configs/
-├── model.yaml
+├── fast_model.yaml
+├── reference_model.yaml
 ├── dataset.yaml
 ├── pipelines.yaml
 └── evaluation.yaml
@@ -354,7 +355,7 @@ Rationale:
 
 Implementation notes:
 
-* Store model identifier, quantization settings, decoding parameters, and prompt version in `configs/model.yaml`.
+* Store model identifier, quantization settings, decoding parameters, and prompt version in `configs/reference_model.yaml`.
 * Maintain prompt templates under `src/models/prompts/`.
 * Version prompt changes in config or prompt filenames.
 * Generate the tool schema block from Pydantic or checked-in JSON Schema to avoid drift.
@@ -535,7 +536,7 @@ Deliverables:
 
 * `requirements.txt` with pinned critical versions.
 * `scripts/setup.sh`.
-* `configs/model.yaml`, `configs/dataset.yaml`, `configs/pipelines.yaml`, `configs/evaluation.yaml`.
+* `configs/reference_model.yaml`, `configs/dataset.yaml`, `configs/pipelines.yaml`, `configs/evaluation.yaml`.
 * Initial package structure under `src/`.
 * Test directory structure.
 

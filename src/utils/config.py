@@ -42,5 +42,5 @@ def load_config(name: str, config_dir: str | Path = DEFAULT_CONFIG_DIR) -> dict[
 def load_all_configs(config_dir: str | Path = DEFAULT_CONFIG_DIR) -> dict[str, dict[str, Any]]:
     return {
         name: load_config(name, config_dir=config_dir)
-        for name in ("model", "dataset", "pipelines", "evaluation")
+        for name in ("fast_model", "reference_model", "dataset", "pipelines", "evaluation")
     }

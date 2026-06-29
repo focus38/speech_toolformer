@@ -3,6 +3,17 @@ model:
   device: auto
   dtype: auto
   trust_remote_code: true
+  architecture: image_text_to_text
+  load:
+    low_cpu_mem_usage: true
+    attn_implementation: sdpa
+    quantization:
+      enabled: true
+      mode: 4bit
+      load_in_4bit: true
+      bnb_4bit_quant_type: nf4
+      bnb_4bit_compute_dtype: bfloat16
+      bnb_4bit_use_double_quant: true
 
 decoding:
   max_new_tokens: 256

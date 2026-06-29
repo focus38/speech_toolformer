@@ -1,7 +1,7 @@
 common:
   dataset_path: data/synthetic_text/test.jsonl
   audio_metadata_path: data/synthetic_audio/metadata.jsonl
-  model_config_path: configs/reference_model.yaml
+  model_config_path: configs/fast_model.yaml
   predictions_dir: data/predictions
 
 pipelines:

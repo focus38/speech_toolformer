@@ -147,7 +147,7 @@ Run a tiny manual real-model smoke test without processing the full dataset:
 bash scripts/smoke_real_text_model.sh
 ```
 
-The script uses `./.venv/bin/python`, reads `configs/model.yaml`, and runs these prompts:
+The script uses `./.venv/bin/python`, reads `configs/reference_model.yaml`, and runs these prompts:
 
 ```text
 Где сейчас едет трамвай номер 7 в Москве?
@@ -155,7 +155,7 @@ What is a trolleybus?
 ```
 
 It prints the raw model output and the parser result for each prompt.
-The configured default model is `google/gemma-3n-E4B-it` with 4-bit quantization settings from `configs/model.yaml`;
+The configured default model is `google/gemma-3n-E4B-it` with 4-bit quantization settings from `configs/reference_model.yaml`;
 use a GPU runtime for this smoke test, preferably Colab with enough VRAM.
 The first run may download model weights and can require Hugging Face access for the model.
 

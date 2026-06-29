@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[2]
 
 
 def test_model_config_contains_required_defaults() -> None:
-    config = load_config("model")
+    config = load_config("reference_model")
 
     assert config["model"]["id"] == "google/gemma-3n-E4B-it"
     assert "max_new_tokens" in config["decoding"]
@@ -51,7 +51,7 @@ def test_evaluation_config_contains_metrics_outputs_and_failure_buckets() -> Non
 def test_load_all_configs_loads_phase_1_configs() -> None:
     configs = load_all_configs()
 
-    assert set(configs) == {"model", "dataset", "pipelines", "evaluation"}
+    assert set(configs) == {"fast_model", "reference_model", "dataset", "pipelines", "evaluation"}
 
 
 def test_load_yaml_config_rejects_missing_file() -> None:

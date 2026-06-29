@@ -16,11 +16,11 @@
 - [X] T002 Create test package skeleton with `__init__.py` files in `tests/unit/`, `tests/integration/`, `tests/contract/`, and `tests/evaluation/`
 - [X] T003 Create pinned dependency list in `requirements.txt` for Python 3.12+ with critical libraries from `specs/001-speech-transit-toolformer/plan.md`
 - [X] T004 Create reproducible environment installer in `scripts/setup.sh` that installs `requirements.txt` for local Linux and Google Colab
-- [X] T005 [P] Create model configuration defaults in `configs/model.yaml` including model id, quantization settings, decoding settings, and prompt version
+- [X] T005 [P] Create model configuration defaults in `configs/reference_model.yaml` including model id, quantization settings, decoding settings, and prompt version
 - [X] T006 [P] Create dataset configuration defaults in `configs/dataset.yaml` including seed, split proportions, output paths, languages, cities, transport types, and route_number pools
 - [X] T007 [P] Create pipeline configuration defaults in `configs/pipelines.yaml` for pipelines A, B, C, and D input/output paths
 - [X] T008 [P] Create evaluation configuration defaults in `configs/evaluation.yaml` for metric names, output paths, and failure-bucket settings
-- [X] T009 Create configuration loader tests in `tests/unit/test_config_loading.py` for required keys in `configs/model.yaml`, `configs/dataset.yaml`, `configs/pipelines.yaml`, and `configs/evaluation.yaml`
+- [X] T009 Create configuration loader tests in `tests/unit/test_config_loading.py` for required keys in `configs/reference_model.yaml`, `configs/dataset.yaml`, `configs/pipelines.yaml`, and `configs/evaluation.yaml`
 - [X] T010 Implement YAML configuration loader in `src/utils/config.py`
 - [X] T011 Create repository artifact ignore rules in `.gitignore` for generated audio, datasets, predictions, metrics, checkpoints, and large adapters under `data/`
 - [X] T012 Create initial project command smoke test in `tests/integration/test_setup_smoke.py` for importability of `src` packages and config loading
@@ -102,7 +102,7 @@
 - [X] T057 Implement tool-use metrics in `src/evaluation/metrics/tool_use.py`
 - [X] T058 Create Pipeline A metric integration test in `tests/integration/test_pipeline_a_metrics.py` over fixture predictions
 - [X] T058.1 Update quickstart guide in `specs/001-speech-transit-toolformer/quickstart.md` with pipeline A runs.
-- [X] T058.2 Implement real Gemma-3n text backend in `src/models/inference/text_model.py` using `configs/model.yaml`, with quantization/device settings and safe Colab defaults.
+- [X] T058.2 Implement real Gemma-3n text backend in `src/models/inference/text_model.py` using `configs/fast_model.yaml` or `configs/reference_model.yaml`, with quantization/device settings and safe Colab defaults.
 - [X] T058.3 Create manual real-model smoke script in `scripts/smoke_real_text_model.sh` that runs one or two text prompts through Gemma-3n and prints raw output without requiring the full dataset.
 - [X] T058.4 Document first real Gemma-3n inference in `specs/001-speech-transit-toolformer/quickstart.md`, including expected command, GPU/Colab notes, and fallback to stub backend.
 

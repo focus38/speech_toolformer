@@ -53,8 +53,8 @@ def run_smoke(config_path: str, prompts: Sequence[str]) -> None:
 
 
 def build_arg_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Run a tiny real Gemma-3n text inference smoke test.")
-    parser.add_argument("--config", default="configs/model.yaml", help="Model YAML config path.")
+    parser = argparse.ArgumentParser(description="Run a tiny real LLM text inference smoke test.")
+    parser.add_argument("--config", default="configs/reference_model.yaml", help="Model YAML config path.")
     parser.add_argument(
         "--prompt",
         action="append",

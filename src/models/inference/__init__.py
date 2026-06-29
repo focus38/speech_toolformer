@@ -1,12 +1,12 @@
 from src.models.inference.text_model import (
-    Gemma3nTextBackend,
+    LLMTextBackend,
     StubTextBackend,
     TextInferenceResult,
     TextModelInference,
 )
 
 __all__ = [
-    "Gemma3nTextBackend",
+    "LLMTextBackend",
     "StubTextBackend",
     "TextInferenceResult",
     "TextModelInference",

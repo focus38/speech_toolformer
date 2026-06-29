@@ -1,0 +1,23 @@
+model:
+  id: Qwen/Qwen2.5-3B-Instruct
+  device: auto
+  dtype: auto
+  trust_remote_code: false
+  architecture: causal_lm
+  load:
+    low_cpu_mem_usage: true
+    attn_implementation: sdpa
+    quantization:
+      enabled: false
+      mode: none
+
+decoding:
+  max_new_tokens: 256
+  temperature: 0.0
+  top_p: 1.0
+  do_sample: false
+
+prompt:
+  version: tool_call_v1
+  tool_name: transport.where_is_vehicle
+  schema_path: specs/001-speech-transit-toolformer/contracts/transport.where_is_vehicle.schema.json

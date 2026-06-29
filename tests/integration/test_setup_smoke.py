@@ -32,7 +32,7 @@ def test_src_packages_are_importable() -> None:
 def test_all_phase_1_configs_load() -> None:
     configs = load_all_configs()
 
-    assert set(configs) == {"model", "dataset", "pipelines", "evaluation"}
+    assert set(configs) == {"fast_model", "reference_model", "dataset", "pipelines", "evaluation"}
 
 
 def test_cli_command_names_are_registered() -> None:
