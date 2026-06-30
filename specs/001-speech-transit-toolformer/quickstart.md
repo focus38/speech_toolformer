@@ -164,3 +164,42 @@ If local hardware or model access is unavailable, keep using the stub backend te
 ```bash
 ./.venv/bin/python -m pytest tests/unit/test_text_inference_wrapper.py tests/integration/test_pipeline_a_smoke.py
 ```
+
+## Phase 5 Synthetic Audio Dataset
+
+Generate one WAV file per synthetic text dataset example using the TTS backend configured in `configs/dataset.yaml`:
+
+```bash
+bash scripts/generate_audio_dataset.sh
+```
+
+Validate the generated audio metadata and WAV references:
+
+```bash
+./.venv/bin/python -m src.audio.validate_audio_dataset --config configs/dataset.yaml
+```
+
+Expected generated files:
+
+```text
+data/synthetic_audio/metadata.jsonl
+data/synthetic_audio/train/*.wav
+data/synthetic_audio/validation/*.wav
+data/synthetic_audio/test/*.wav
+```
+
+Audio generation reads `configs/dataset.yaml` for the text dataset paths, audio output paths, sample rate, speakers, and TTS backend settings. It does not use `configs/fast_model.yaml` or `configs/reference_model.yaml`; those model configs are for later pipeline and inference phases.
+
+The fake TTS backend is for tests only. Final audio evaluation must use the configured real TTS backend unless a test explicitly monkeypatches or configures a fake backend.
+
+Run the Phase 5 audio dataset checks:
+
+```bash
+./.venv/bin/python -m pytest \
+  tests/unit/test_audio_metadata_validation.py \
+  tests/unit/test_audio_dataset_synthesis.py \
+  tests/unit/test_tts_adapter.py \
+  tests/unit/test_piper_tts_backend.py \
+  tests/integration/test_audio_dataset_generation.py \
+  tests/integration/test_artifact_gitignore.py
+```

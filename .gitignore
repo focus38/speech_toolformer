@@ -235,6 +235,7 @@ data/predictions/
 data/metrics/
 data/checkpoints/
 data/adapters/
+data/voices
 *.ckpt
 *.safetensors
 *.pt

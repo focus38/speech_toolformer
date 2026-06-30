@@ -6,6 +6,10 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from src.audio.synthesis.dataset import synthesize_text_dataset_audio
+from src.audio.synthesis.metadata import write_audio_metadata
+from src.audio.synthesis.tts_backend import create_tts_adapter_from_config
+from src.audio.validate_audio_dataset import validate_audio_dataset_outputs
 from src.data.generators.summary import DEFAULT_SUMMARY_PATH, write_dataset_summary
 from src.data.generators.text_dataset import generate_text_dataset
 from src.data.loaders.jsonl import write_text_dataset_splits
@@ -82,9 +86,23 @@ def validate_contracts_command(config_path: str | Path = "configs/dataset.yaml")
     return completed.returncode
 
 
-def generate_audio_dataset_command(config_path: str | Path = "configs/dataset.yaml") -> None:
-    del config_path
-    raise CommandNotImplementedError("generate-audio-dataset is scheduled for Phase 5")
+def generate_audio_dataset_command(config_path: str | Path = "configs/dataset.yaml") -> dict[str, int]:
+    config = load_yaml_config(config_path)
+    outputs = config["outputs"]
+    adapter = create_tts_adapter_from_config(config)
+    results = synthesize_text_dataset_audio(
+        dataset_path=outputs["text_dataset"],
+        output_dir=outputs["audio_dir"],
+        adapter=adapter,
+    )
+    metadata_count = write_audio_metadata(results, metadata_path=outputs["audio_metadata"])
+    validation_counts = validate_audio_dataset_outputs(config, project_root=Path.cwd())
+    print(
+        "Generated synthetic audio dataset: "
+        f"audio={len(results)} metadata={metadata_count} "
+        f"validated={validation_counts['metadata']} output={outputs['audio_metadata']}"
+    )
+    return {"audio": len(results), "metadata": metadata_count}
 
 
 def run_pipeline_a_command(config_path: str | Path = "configs/pipelines.yaml") -> list[PipelinePrediction]:

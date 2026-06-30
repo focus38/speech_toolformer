@@ -62,7 +62,24 @@ generation:
 
 audio:
   sample_rate: 16000
-  tts_engine: coqui-tts
+  backend: piper
+  tts_engine: piper
   speakers:
-    ru: ru_voice_01
-    en: en_voice_01
+    ru: ru_irina
+    en: en_lessac
+  piper:
+    executable: piper
+    timeout_seconds: 120
+    voices:
+      ru:
+        voice_id: ru_irina
+        model_path: data/voices/ru_irina.onnx
+        config_path: data/voices/ru_irina.onnx.json
+        model_url: https://huggingface.co/rhasspy/piper-voices/resolve/main/ru/ru_RU/irina/medium/ru_RU-irina-medium.onnx
+        config_url: https://huggingface.co/rhasspy/piper-voices/resolve/main/ru/ru_RU/irina/medium/ru_RU-irina-medium.onnx.json
+      en:
+        voice_id: en_lessac
+        model_path: data/voices/en_lessac.onnx
+        config_path: data/voices/en_lessac.onnx.json
+        model_url: https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/lessac/medium/en_US-lessac-medium.onnx
+        config_url: https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/lessac/medium/en_US-lessac-medium.onnx.json

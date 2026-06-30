@@ -114,16 +114,31 @@
 
 **Purpose**: Synthesize one audio file per text example, store reproducible metadata, and validate audio references.
 
-- [ ] T059 Create TTS adapter tests in `tests/unit/test_tts_adapter.py` using a fake backend that writes small WAV fixtures
-- [ ] T060 Implement TTS backend interface in `src/audio/synthesis/base.py`
-- [ ] T061 Implement configurable TTS adapter in `src/audio/synthesis/tts_backend.py`
-- [ ] T062 Create audio metadata validation tests in `tests/unit/test_audio_metadata_validation.py` for relative audio_path, sample_rate, language, transcript, duration_seconds, tts_engine, and speaker_id
-- [ ] T063 Implement audio metadata writer in `src/audio/synthesis/metadata.py` for `data/synthetic_audio/metadata.jsonl`
-- [ ] T064 Implement audio validation CLI in `src/audio/validate_audio_dataset.py`
-- [ ] T065 Create audio generation script in `scripts/generate_audio_dataset.sh` using `configs/dataset.yaml`
-- [ ] T066 Create audio dataset integration test in `tests/integration/test_audio_dataset_generation.py` for metadata schema validation and test split alignment with `data/synthetic_text/test.jsonl`
-- [ ] T067 Add generated audio exclusion verification in `tests/integration/test_artifact_gitignore.py` for `data/synthetic_audio/`
-- [ ] T067.1 Update quickstart guide in `specs/001-speech-transit-toolformer/quickstart.md` with audio dataset generation.
+Phase 5 must not depend on model inference configs.
+
+Audio generation uses:
+- configs/dataset.yaml
+- optional configs/audio.yaml if introduced later
+
+It must not require:
+- configs/fast_model.yaml
+- configs/reference_model.yaml
+
+These model configs are used later by pipelines A-D and real inference only.
+
+- [X] T059 Create TTS adapter tests in `tests/unit/test_tts_adapter.py` using a fake backend that writes small WAV fixtures
+- [X] T060 Implement TTS backend interface in `src/audio/synthesis/base.py`
+- [X] T061 Implement configurable TTS adapter in `src/audio/synthesis/tts_backend.py`
+- [X] T061.1 Configure real TTS backend for synthetic audio generation, e.g. Coqui TTS, Silero TTS, edge-tts, or another reproducible backend.
+- [X] T061.2 Implement real TTS synthesis path that converts every `user_text` from the fixed text dataset into a WAV file.
+- [X] T061.3 Add fallback fake TTS backend for tests only; fake backend must not be used for final audio evaluation.
+- [X] T062 Create audio metadata validation tests in `tests/unit/test_audio_metadata_validation.py` for relative audio_path, sample_rate, language, transcript, duration_seconds, tts_engine, and speaker_id
+- [X] T063 Implement audio metadata writer in `src/audio/synthesis/metadata.py` for `data/synthetic_audio/metadata.jsonl`
+- [X] T064 Implement audio validation CLI in `src/audio/validate_audio_dataset.py`
+- [X] T065 Create audio generation script in `scripts/generate_audio_dataset.sh` using `configs/dataset.yaml`; the script must not require `configs/fast_model.yaml` or `configs/reference_model.yaml`; it must generate real WAV files for all dataset examples using the configured TTS backend.
+- [X] T066 Create audio dataset integration test in `tests/integration/test_audio_dataset_generation.py` for metadata schema validation and test split alignment with `data/synthetic_text/test.jsonl`
+- [X] T067 Add generated audio exclusion verification in `tests/integration/test_artifact_gitignore.py` for `data/synthetic_audio/`
+- [X] T067.1 Update quickstart guide in `specs/001-speech-transit-toolformer/quickstart.md` with audio dataset generation.
 
 **Checkpoint**: Every test example has validated audio metadata and generated WAV artifacts remain outside Git.
 

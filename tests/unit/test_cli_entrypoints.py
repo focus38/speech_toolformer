@@ -10,7 +10,6 @@ def test_all_registered_commands_have_dispatch_handlers() -> None:
 
 def test_later_phase_cli_entry_points_fail_explicitly_without_implementing_future_work() -> None:
     expected_messages = {
-        "generate-audio-dataset": "Phase 5",
         "run-pipeline-b": "Phase 6",
         "run-pipeline-c": "Phase 6",
         "run-pipeline-d": "Phase 6",
