@@ -152,9 +152,9 @@ These model configs are used later by pipelines A-D and real inference only.
 - [X] T069 Implement audio preprocessing utilities in `src/audio/preprocessing/io.py`
 - [X] T070 Create audio model inference wrapper tests in `tests/unit/test_audio_inference_wrapper.py` with stub transcript and joint-output responses
 - [X] T071 Implement audio inference wrapper in `src/models/inference/audio_model.py`
-- [ ] T072 Create Pipeline B smoke test in `tests/integration/test_pipeline_b_smoke.py` using tiny audio fixtures and stub inference backend
-- [ ] T073 Implement Pipeline B runner in `src/pipelines/pipeline_b/runner.py`
-- [ ] T074 Create Pipeline B shell entry point in `scripts/run_pipeline_b.sh`
+- [X] T072 Create Pipeline B smoke test in `tests/integration/test_pipeline_b_smoke.py` using tiny audio fixtures and stub inference backend
+- [X] T073 Implement Pipeline B runner in `src/pipelines/pipeline_b/runner.py`
+- [X] T074 Create Pipeline B shell entry point in `scripts/run_pipeline_b.sh`
 - [ ] T075 Create Pipeline C smoke test in `tests/integration/test_pipeline_c_smoke.py` using tiny audio fixtures and stub joint transcript/tool output
 - [ ] T076 Implement Pipeline C runner in `src/pipelines/pipeline_c/runner.py`
 - [ ] T077 Create Pipeline C shell entry point in `scripts/run_pipeline_c.sh`

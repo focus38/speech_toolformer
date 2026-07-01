@@ -15,8 +15,10 @@ from src.data.generators.text_dataset import generate_text_dataset
 from src.data.loaders.jsonl import write_text_dataset_splits
 from src.data.validate_dataset import validate_dataset_outputs
 from src.data_models import PipelinePrediction
+from src.models.inference.audio_model import build_audio_inference_from_config
 from src.models.inference.text_model import build_text_inference_from_config
 from src.pipelines.pipeline_a.runner import run_pipeline_a
+from src.pipelines.pipeline_b.runner import run_pipeline_b
 from src.utils.config import PROJECT_ROOT, load_yaml_config
 
 
@@ -123,9 +125,24 @@ def run_pipeline_a_command(config_path: str | Path = "configs/pipelines.yaml") -
     return records
 
 
-def run_pipeline_b_command(config_path: str | Path = "configs/dataset.yaml") -> None:
-    del config_path
-    raise CommandNotImplementedError("run-pipeline-b is scheduled for Phase 6")
+def run_pipeline_b_command(config_path: str | Path = "configs/pipelines.yaml") -> list[PipelinePrediction]:
+    pipeline_config = load_yaml_config(config_path)
+    model_config_path = pipeline_config.get("common", {}).get("model_config_path", "configs/reference_model.yaml")
+    model_config = load_yaml_config(model_config_path)
+    common_config = pipeline_config.get("common", {})
+    pipeline_b_config = pipeline_config["pipelines"]["B"]
+    inference = build_audio_inference_from_config(model_config)
+    records = run_pipeline_b(
+        dataset_path=common_config.get("dataset_path", "data/synthetic_text/test.jsonl"),
+        metadata_path=pipeline_b_config["input_path"],
+        output_path=pipeline_b_config["output_path"],
+        inference=inference,
+    )
+    print(
+        "Pipeline B transcripts written: "
+        f"count={len(records)} output={pipeline_b_config['output_path']}"
+    )
+    return records
 
 
 def run_pipeline_c_command(config_path: str | Path = "configs/dataset.yaml") -> None:
