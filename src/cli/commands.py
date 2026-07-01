@@ -15,6 +15,7 @@ from src.data.generators.text_dataset import generate_text_dataset
 from src.data.loaders.jsonl import write_text_dataset_splits
 from src.data.validate_dataset import validate_dataset_outputs
 from src.data_models import PipelinePrediction
+from src.evaluation.benchmarks.evaluate_all import evaluate_all
 from src.models.inference.audio_model import build_audio_inference_from_config
 from src.models.inference.text_model import build_text_inference_from_config
 from src.pipelines.pipeline_a.runner import run_pipeline_a
@@ -189,9 +190,10 @@ def run_pipeline_d_command(config_path: str | Path = "configs/pipelines.yaml") -
     return records
 
 
-def evaluate_command(config_path: str | Path = "configs/dataset.yaml") -> None:
-    del config_path
-    raise CommandNotImplementedError("evaluate is scheduled for Phase 7")
+def evaluate_command(config_path: str | Path = "configs/evaluation.yaml") -> dict[str, Path]:
+    outputs = evaluate_all(evaluation_config_path=config_path)
+    print("Unified evaluation outputs written: " + ", ".join(f"{key}={value}" for key, value in outputs.items()))
+    return outputs
 
 
 CommandHandler = Callable[[str | Path], Any]

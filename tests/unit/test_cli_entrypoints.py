@@ -1,25 +1,6 @@
-import pytest
-
-from src.cli import COMMAND_HANDLERS, CommandNotImplementedError, command_names, dispatch
-from src.cli.__main__ import main
+from src.cli import COMMAND_HANDLERS, command_names
 
 
 def test_all_registered_commands_have_dispatch_handlers() -> None:
     assert set(COMMAND_HANDLERS) == set(command_names())
 
-
-def test_later_phase_cli_entry_points_fail_explicitly_without_implementing_future_work() -> None:
-    expected_messages = {
-        "evaluate": "Phase 7",
-    }
-
-    for command, phase in expected_messages.items():
-        with pytest.raises(CommandNotImplementedError, match=phase):
-            dispatch(command)
-
-
-def test_cli_main_returns_nonzero_for_later_phase_entry_point(capsys: pytest.CaptureFixture[str]) -> None:
-    exit_code = main(["evaluate"])
-
-    assert exit_code == 2
-    assert "scheduled for Phase 7" in capsys.readouterr().err
