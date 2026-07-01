@@ -173,8 +173,8 @@ These model configs are used later by pipelines A-D and real inference only.
 
 **Purpose**: Compute unified metrics, compare pipelines, extract failures, and produce report-ready artifacts from saved records.
 
-- [ ] T083 Create ASR metric tests in `tests/evaluation/test_asr_metrics.py` for WER, WER by language, route_number_error_rate, and city_error_rate
-- [ ] T084 Implement ASR metrics in `src/evaluation/metrics/asr.py`
+- [X] T083 Create ASR metric tests in `tests/evaluation/test_asr_metrics.py` for WER, WER by language, route_number_error_rate, and city_error_rate
+- [X] T084 Implement ASR metrics in `src/evaluation/metrics/asr.py`
 - [ ] T085 Create comparison metric tests in `tests/evaluation/test_comparison_metrics.py` for Pipeline A vs C vs D and text-vs-audio gap calculations
 - [ ] T086 Implement comparison metrics in `src/evaluation/metrics/comparison.py`
 - [ ] T087 Create failure analysis tests in `tests/evaluation/test_failure_analysis.py` for buckets by language, city, transport_type, route_number pattern, and parse_status
@@ -187,7 +187,26 @@ These model configs are used later by pipelines A-D and real inference only.
 - [ ] T094 Create report draft in `reports/final_report.md` covering project goal, tool schema, dataset process, audio process, model/prompt setup, metrics for A-D, ASR WER, best pipeline choice, failure cases, limitations, and improvements
 - [ ] T095 Create demo notebook skeleton in `notebooks/demo.ipynb` that calls package code instead of embedding core logic
 - [ ] T095.1 Update quickstart guide in `specs/001-speech-transit-toolformer/quickstart.md` with evaluation commands, and expected outputs.
+- [ ] T095.2 Create Colab-ready notebook `notebooks/colab_demo.ipynb` that runs or demonstrates all four pipelines A, B, C, and D separately.
+- [ ] T095.3 Add notebook cells for:
+  - environment setup
+  - mounting Google Drive if needed
+  - loading configs
+  - generating or loading text dataset
+  - generating or loading audio dataset
+  - running Pipeline A
+  - running Pipeline B
+  - running Pipeline C
+  - running Pipeline D
+  - running unified evaluation
+  - showing metrics tables
+  - showing failure examples
+  - explaining best pipeline choice
 
+- [ ] T095.4 Ensure the notebook calls project package code and scripts instead of duplicating core logic.
+- [ ] T095.5 Add a small “quick demo mode” to the notebook that runs on 3-5 examples for fast Colab verification.
+- [ ] T095.6 Add a “full evaluation mode” to the notebook that runs on the fixed test split and produces report-ready outputs.
+- 
 **Checkpoint**: Saved predictions can be evaluated end to end and turned into report tables, plots, failure cases, and a final report draft.
 
 ---
