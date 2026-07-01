@@ -20,6 +20,7 @@ from src.models.inference.text_model import build_text_inference_from_config
 from src.pipelines.pipeline_a.runner import run_pipeline_a
 from src.pipelines.pipeline_b.runner import run_pipeline_b
 from src.pipelines.pipeline_c.runner import run_pipeline_c
+from src.pipelines.pipeline_d.runner import run_pipeline_d
 from src.utils.config import PROJECT_ROOT, load_yaml_config
 
 
@@ -166,9 +167,26 @@ def run_pipeline_c_command(config_path: str | Path = "configs/pipelines.yaml") -
     return records
 
 
-def run_pipeline_d_command(config_path: str | Path = "configs/dataset.yaml") -> None:
-    del config_path
-    raise CommandNotImplementedError("run-pipeline-d is scheduled for Phase 6")
+def run_pipeline_d_command(config_path: str | Path = "configs/pipelines.yaml") -> list[PipelinePrediction]:
+    pipeline_config = load_yaml_config(config_path)
+    model_config_path = pipeline_config.get("common", {}).get("model_config_path", "configs/reference_model.yaml")
+    model_config = load_yaml_config(model_config_path)
+    common_config = pipeline_config.get("common", {})
+    pipeline_d_config = pipeline_config["pipelines"]["D"]
+    audio_inference = build_audio_inference_from_config(model_config)
+    text_inference = build_text_inference_from_config(model_config)
+    records = run_pipeline_d(
+        dataset_path=common_config.get("dataset_path", "data/synthetic_text/test.jsonl"),
+        metadata_path=common_config.get("audio_metadata_path", "data/synthetic_audio/metadata.jsonl"),
+        output_path=pipeline_d_config["output_path"],
+        audio_inference=audio_inference,
+        text_inference=text_inference,
+    )
+    print(
+        "Pipeline D cascaded outputs written: "
+        f"count={len(records)} output={pipeline_d_config['output_path']}"
+    )
+    return records
 
 
 def evaluate_command(config_path: str | Path = "configs/dataset.yaml") -> None:

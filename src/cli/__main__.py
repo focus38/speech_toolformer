@@ -7,7 +7,7 @@ from src.cli.commands import CommandNotImplementedError, command_names, dispatch
 
 
 def _default_config_for_command(command: str) -> str:
-    if command in {"run-pipeline-a", "run-pipeline-b", "run-pipeline-c"}:
+    if command in {"run-pipeline-a", "run-pipeline-b", "run-pipeline-c", "run-pipeline-d"}:
         return "configs/pipelines.yaml"
     return "configs/dataset.yaml"
 

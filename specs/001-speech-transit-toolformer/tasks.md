@@ -158,9 +158,9 @@ These model configs are used later by pipelines A-D and real inference only.
 - [X] T075 Create Pipeline C smoke test in `tests/integration/test_pipeline_c_smoke.py` using tiny audio fixtures and stub joint transcript/tool output
 - [X] T076 Implement Pipeline C runner in `src/pipelines/pipeline_c/runner.py`
 - [X] T077 Create Pipeline C shell entry point in `scripts/run_pipeline_c.sh`
-- [ ] T078 Create Pipeline D smoke test in `tests/integration/test_pipeline_d_smoke.py` using stub ASR output followed by text tool-call inference
-- [ ] T079 Implement Pipeline D runner in `src/pipelines/pipeline_d/runner.py`
-- [ ] T080 Create Pipeline D shell entry point in `scripts/run_pipeline_d.sh`
+- [X] T078 Create Pipeline D smoke test in `tests/integration/test_pipeline_d_smoke.py` using stub ASR output followed by text tool-call inference
+- [X] T079 Implement Pipeline D runner in `src/pipelines/pipeline_d/runner.py`
+- [X] T080 Create Pipeline D shell entry point in `scripts/run_pipeline_d.sh`
 - [ ] T081 Create shared split consistency test in `tests/integration/test_audio_pipeline_split_consistency.py` ensuring pipelines B, C, and D use the same `data/synthetic_text/test.jsonl` examples and audio metadata
 - [ ] T082 Create prediction contract tests in `tests/contract/test_audio_pipeline_predictions.py` for `pipeline_b_predictions.jsonl`, `pipeline_c_predictions.jsonl`, and `pipeline_d_predictions.jsonl`
 - [ ] T082.1 Update quickstart guide in `specs/001-speech-transit-toolformer/quickstart.md` with pipeline B, C, D runs.
