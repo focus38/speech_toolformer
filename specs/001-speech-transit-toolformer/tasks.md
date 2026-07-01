@@ -155,9 +155,9 @@ These model configs are used later by pipelines A-D and real inference only.
 - [X] T072 Create Pipeline B smoke test in `tests/integration/test_pipeline_b_smoke.py` using tiny audio fixtures and stub inference backend
 - [X] T073 Implement Pipeline B runner in `src/pipelines/pipeline_b/runner.py`
 - [X] T074 Create Pipeline B shell entry point in `scripts/run_pipeline_b.sh`
-- [ ] T075 Create Pipeline C smoke test in `tests/integration/test_pipeline_c_smoke.py` using tiny audio fixtures and stub joint transcript/tool output
-- [ ] T076 Implement Pipeline C runner in `src/pipelines/pipeline_c/runner.py`
-- [ ] T077 Create Pipeline C shell entry point in `scripts/run_pipeline_c.sh`
+- [X] T075 Create Pipeline C smoke test in `tests/integration/test_pipeline_c_smoke.py` using tiny audio fixtures and stub joint transcript/tool output
+- [X] T076 Implement Pipeline C runner in `src/pipelines/pipeline_c/runner.py`
+- [X] T077 Create Pipeline C shell entry point in `scripts/run_pipeline_c.sh`
 - [ ] T078 Create Pipeline D smoke test in `tests/integration/test_pipeline_d_smoke.py` using stub ASR output followed by text tool-call inference
 - [ ] T079 Implement Pipeline D runner in `src/pipelines/pipeline_d/runner.py`
 - [ ] T080 Create Pipeline D shell entry point in `scripts/run_pipeline_d.sh`
