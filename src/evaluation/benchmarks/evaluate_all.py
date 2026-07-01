@@ -8,6 +8,8 @@ from src.evaluation.metrics.asr import evaluate_asr_predictions
 from src.evaluation.metrics.comparison import compare_pipeline_metrics
 from src.evaluation.metrics.tool_use import evaluate_tool_use_predictions
 from src.evaluation.reporting.failure_analysis import extract_failure_cases_from_files
+from src.evaluation.reporting.plots import write_metric_plots
+from src.evaluation.reporting.tables import write_comparison_table
 from src.utils.config import PROJECT_ROOT, load_yaml_config
 
 
@@ -53,6 +55,16 @@ def _failure_cases_path(evaluation_config: dict[str, Any]) -> Path:
 def _comparison_path(evaluation_config: dict[str, Any]) -> Path:
     outputs = evaluation_config["outputs"]
     return _resolve(Path(outputs.get("metrics_dir", "data/metrics")) / "comparison_metrics.json")
+
+
+def _comparison_table_path(evaluation_config: dict[str, Any]) -> Path:
+    outputs = evaluation_config["outputs"]
+    return _resolve(outputs.get("comparison_table", "data/metrics/comparison_table.csv"))
+
+
+def _figures_dir(evaluation_config: dict[str, Any]) -> Path:
+    outputs = evaluation_config["outputs"]
+    return _resolve(outputs.get("figures_dir", "reports/figures"))
 
 
 def _failure_summary_path(evaluation_config: dict[str, Any]) -> Path:
@@ -116,6 +128,16 @@ def evaluate_all(
         _comparison_path(evaluation_config),
         comparison.model_dump(mode="json"),
     )
+    metric_paths_by_pipeline = {
+        pipeline: outputs[f"pipeline_{pipeline.lower()}_metrics"]
+        for pipeline in ("A", "B", "C", "D")
+    }
+    outputs["comparison_table"] = write_comparison_table(
+        metric_paths_by_pipeline,
+        output_path=_comparison_table_path(evaluation_config),
+    )
+    for name, path in write_metric_plots(metric_paths_by_pipeline, figures_dir=_figures_dir(evaluation_config)).items():
+        outputs[f"figure_{name}"] = path
 
     failure_rows: list[dict[str, Any]] = []
     failure_summary: dict[str, Any] = {}

@@ -141,6 +141,8 @@ def test_unified_evaluator_writes_metrics_comparison_and_failures(tmp_path: Path
                     "pipeline_c_metrics": str(metrics_dir / "pipeline_c_metrics.json"),
                     "pipeline_d_metrics": str(metrics_dir / "pipeline_d_metrics.json"),
                     "failure_cases": str(reports_dir / "failure_cases.jsonl"),
+                    "comparison_table": str(metrics_dir / "comparison_table.csv"),
+                    "figures_dir": str(reports_dir / "figures"),
                 }
             }
         ),
@@ -157,6 +159,9 @@ def test_unified_evaluator_writes_metrics_comparison_and_failures(tmp_path: Path
     assert outputs["pipeline_c_metrics"].exists()
     assert outputs["pipeline_d_metrics"].exists()
     assert outputs["comparison_metrics"].exists()
+    assert outputs["comparison_table"].exists()
+    assert outputs["figure_tool_accuracy"].exists()
+    assert outputs["figure_asr_error_rates"].exists()
     assert outputs["failure_cases"].exists()
     assert outputs["failure_summary"].exists()
 
@@ -169,6 +174,7 @@ def test_unified_evaluator_writes_metrics_comparison_and_failures(tmp_path: Path
         for line in outputs["failure_cases"].read_text(encoding="utf-8").splitlines()
     ]
     failure_summary = json.loads(outputs["failure_summary"].read_text(encoding="utf-8"))
+    comparison_table = outputs["comparison_table"].read_text(encoding="utf-8")
 
     assert pipeline_a_metrics["tool_use"]["pipeline"] == "A"
     assert pipeline_b_metrics["asr"]["pipeline"] == "B"
@@ -176,6 +182,7 @@ def test_unified_evaluator_writes_metrics_comparison_and_failures(tmp_path: Path
     assert pipeline_c_metrics["asr"]["route_number_error_rate"] == 0.5
     assert comparison["deltas"]["C"]["route_number_accuracy"] == -0.5
     assert comparison["text_vs_audio_gaps"]["D"]["recall"] == 0.5
+    assert "route_number_accuracy,C,0.500000" in comparison_table
     assert {row["pipeline"] for row in failure_rows} == {"C", "D"}
     assert any(row["raw_output"] == "raw" for row in failure_rows)
     assert failure_summary["C"]["buckets"]["route_number_pattern"]["numeric"] == 1
