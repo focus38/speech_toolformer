@@ -175,8 +175,8 @@ These model configs are used later by pipelines A-D and real inference only.
 
 - [X] T083 Create ASR metric tests in `tests/evaluation/test_asr_metrics.py` for WER, WER by language, route_number_error_rate, and city_error_rate
 - [X] T084 Implement ASR metrics in `src/evaluation/metrics/asr.py`
-- [ ] T085 Create comparison metric tests in `tests/evaluation/test_comparison_metrics.py` for Pipeline A vs C vs D and text-vs-audio gap calculations
-- [ ] T086 Implement comparison metrics in `src/evaluation/metrics/comparison.py`
+- [X] T085 Create comparison metric tests in `tests/evaluation/test_comparison_metrics.py` for Pipeline A vs C vs D and text-vs-audio gap calculations
+- [X] T086 Implement comparison metrics in `src/evaluation/metrics/comparison.py`
 - [ ] T087 Create failure analysis tests in `tests/evaluation/test_failure_analysis.py` for buckets by language, city, transport_type, route_number pattern, and parse_status
 - [ ] T088 Implement failure-case extraction in `src/evaluation/reporting/failure_analysis.py`
 - [ ] T089 Create unified evaluator integration test in `tests/integration/test_unified_evaluator.py` over fixture datasets and fixture predictions
