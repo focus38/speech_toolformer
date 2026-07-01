@@ -203,3 +203,88 @@ Run the Phase 5 audio dataset checks:
   tests/integration/test_audio_dataset_generation.py \
   tests/integration/test_artifact_gitignore.py
 ```
+
+## Phase 6 Audio Pipelines B, C, and D
+
+Pipelines B, C, and D require the Phase 5 synthetic audio outputs to exist before running:
+
+```text
+data/synthetic_text/test.jsonl
+data/synthetic_audio/metadata.jsonl
+data/synthetic_audio/test/*.wav
+```
+
+Generate and validate those files first if they are missing:
+
+```bash
+bash scripts/generate_audio_dataset.sh
+./.venv/bin/python -m src.audio.validate_audio_dataset --config configs/dataset.yaml
+```
+
+Run Pipeline B, the audio-to-transcript ASR baseline:
+
+```bash
+bash scripts/run_pipeline_b.sh
+```
+
+Expected output:
+
+```text
+data/predictions/pipeline_b_predictions.jsonl
+```
+
+Run Pipeline C, the direct joint audio-to-transcript-and-tool pipeline:
+
+```bash
+bash scripts/run_pipeline_c.sh
+```
+
+Expected output:
+
+```text
+data/predictions/pipeline_c_predictions.jsonl
+```
+
+Run Pipeline D, the cascaded audio-to-transcript-to-text-tool pipeline:
+
+```bash
+bash scripts/run_pipeline_d.sh
+```
+
+Expected output:
+
+```text
+data/predictions/pipeline_d_predictions.jsonl
+```
+
+All three scripts use `configs/pipelines.yaml`. That config points B, C, and D at the same fixed text test split and the same audio metadata file:
+
+```text
+data/synthetic_text/test.jsonl
+data/synthetic_audio/metadata.jsonl
+```
+
+For real multimodal audio inference, use the model config referenced by `configs/pipelines.yaml`, preferably:
+
+```text
+configs/reference_model.yaml
+```
+
+The default reference config targets `google/gemma-3n-E4B-it` and is intended for GPU or Colab-style runs with the configured quantization settings. The first real run may download model weights and may require Hugging Face access. Local development should use the stub-backed tests for deterministic checks:
+
+```bash
+./.venv/bin/python -m pytest \
+  tests/integration/test_pipeline_b_smoke.py \
+  tests/integration/test_pipeline_c_smoke.py \
+  tests/integration/test_pipeline_d_smoke.py
+```
+
+Run the shared split and prediction-contract checks after B/C/D prediction files have been generated:
+
+```bash
+./.venv/bin/python -m pytest \
+  tests/integration/test_audio_pipeline_split_consistency.py \
+  tests/contract/test_audio_pipeline_predictions.py
+```
+
+If Phase 5 audio or pipeline prediction artifacts are not present, the artifact-dependent checks are skipped with a message naming the missing generated file.

@@ -78,11 +78,16 @@ def _metadata_for_examples(
             raise PipelineDAudioAlignmentError(f"Audio metadata is not in the test split: {sample.audio_path}")
         pairs.append((example, sample))
 
-    extra_ids = sorted(set(samples_by_id) - {example.id for example in examples})
-    if extra_ids:
-        preview = ", ".join(extra_ids[:5])
-        suffix = "" if len(extra_ids) <= 5 else f", ... ({len(extra_ids)} total)"
-        raise PipelineDAudioAlignmentError(f"Audio metadata contains non-test or unknown ids: {preview}{suffix}")
+    test_metadata_ids = {
+        example_id
+        for example_id, sample in samples_by_id.items()
+        if len(Path(sample.audio_path).parts) >= 2 and Path(sample.audio_path).parts[-2] == Split.TEST.value
+    }
+    extra_test_ids = sorted(test_metadata_ids - {example.id for example in examples})
+    if extra_test_ids:
+        preview = ", ".join(extra_test_ids[:5])
+        suffix = "" if len(extra_test_ids) <= 5 else f", ... ({len(extra_test_ids)} total)"
+        raise PipelineDAudioAlignmentError(f"Audio metadata contains unknown test ids: {preview}{suffix}")
     return pairs
 
 
