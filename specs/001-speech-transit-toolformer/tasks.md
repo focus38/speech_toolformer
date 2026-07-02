@@ -184,9 +184,9 @@ These model configs are used later by pipelines A-D and real inference only.
 - [X] T091 Create evaluation shell entry point in `scripts/evaluate.sh`
 - [X] T092 Implement metrics table writer in `src/evaluation/reporting/tables.py` for `data/metrics/pipeline_a_metrics.json`, `pipeline_b_metrics.json`, `pipeline_c_metrics.json`, `pipeline_d_metrics.json`, and `comparison_table.csv`
 - [X] T093 Implement plotting helpers in `src/evaluation/reporting/plots.py` for report figures under `reports/figures/`
-- [ ] T094 Create report draft in `reports/final_report.md` covering project goal, tool schema, dataset process, audio process, model/prompt setup, metrics for A-D, ASR WER, best pipeline choice, failure cases, limitations, and improvements
+- [X] T094 Create report draft in `reports/final_report.md` covering project goal, tool schema, dataset process, audio process, model/prompt setup, metrics for A-D, ASR WER, best pipeline choice, failure cases, limitations, and improvements
 - [X] T095 Create demo notebook skeleton in `notebooks/demo.ipynb` that calls package code instead of embedding core logic
-- [ ] T095.1 Update quickstart guide in `specs/001-speech-transit-toolformer/quickstart.md` with evaluation commands, and expected outputs.
+- [X] T095.1 Update quickstart guide in `specs/001-speech-transit-toolformer/quickstart.md` with evaluation commands, and expected outputs.
 - [X] T095.2 Create Colab-ready notebook `notebooks/colab_demo.ipynb` that runs or demonstrates all four pipelines A, B, C, and D separately.
 - [X] T095.3 Add notebook cells for:
   - environment setup

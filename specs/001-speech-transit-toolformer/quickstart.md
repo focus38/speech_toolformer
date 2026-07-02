@@ -288,3 +288,109 @@ Run the shared split and prediction-contract checks after B/C/D prediction files
 ```
 
 If Phase 5 audio or pipeline prediction artifacts are not present, the artifact-dependent checks are skipped with a message naming the missing generated file.
+
+## Phase 7 Evaluation, Notebooks, and Report
+
+Run unified evaluation after the fixed text dataset, synthetic audio dataset, and all four prediction files exist:
+
+```bash
+bash scripts/generate_text_dataset.sh
+bash scripts/generate_audio_dataset.sh
+bash scripts/run_pipeline_a.sh
+bash scripts/run_pipeline_b.sh
+bash scripts/run_pipeline_c.sh
+bash scripts/run_pipeline_d.sh
+bash scripts/evaluate.sh
+```
+
+The direct CLI equivalent for evaluation is:
+
+```bash
+./.venv/bin/python -m src.cli evaluate --config configs/evaluation.yaml
+```
+
+Expected prediction inputs for evaluation:
+
+```text
+data/predictions/pipeline_a_predictions.jsonl
+data/predictions/pipeline_b_predictions.jsonl
+data/predictions/pipeline_c_predictions.jsonl
+data/predictions/pipeline_d_predictions.jsonl
+```
+
+Expected metrics outputs:
+
+```text
+data/metrics/pipeline_a_metrics.json
+data/metrics/pipeline_b_metrics.json
+data/metrics/pipeline_c_metrics.json
+data/metrics/pipeline_d_metrics.json
+data/metrics/comparison_metrics.json
+data/metrics/comparison_table.csv
+```
+
+Expected report outputs:
+
+```text
+reports/failure_cases.jsonl
+reports/failure_summary.json
+reports/figures/tool_exact_match_accuracy.png
+reports/figures/asr_word_error_rate.png
+reports/final_report.md
+```
+
+The per-pipeline metric JSON files contain:
+
+| File | Contents |
+|---|---|
+| `data/metrics/pipeline_a_metrics.json` | Tool-use metrics for text-to-tool Pipeline A. |
+| `data/metrics/pipeline_b_metrics.json` | ASR metrics, including WER, for audio-to-transcript Pipeline B. |
+| `data/metrics/pipeline_c_metrics.json` | Tool-use metrics and ASR metrics for direct audio-to-transcript-and-tool Pipeline C. |
+| `data/metrics/pipeline_d_metrics.json` | Tool-use metrics and ASR metrics for cascaded Pipeline D. |
+| `data/metrics/comparison_table.csv` | Report-ready long table with metric, pipeline, and value columns. |
+
+The failure analysis files contain wrong tool calls, missed tools, false alarms, parse failures, and buckets by language, city, transport type, route number pattern, and parse status.
+
+Run the Phase 7 evaluation checks:
+
+```bash
+./.venv/bin/python -m pytest \
+  tests/evaluation/test_asr_metrics.py \
+  tests/evaluation/test_comparison_metrics.py \
+  tests/evaluation/test_failure_analysis.py \
+  tests/evaluation/test_reporting_tables_plots.py \
+  tests/integration/test_unified_evaluator.py
+```
+
+### Notebook instructions
+
+Use the local demo notebook for a lightweight walkthrough:
+
+```text
+notebooks/demo.ipynb
+```
+
+Use the Colab-ready notebook for a fuller demonstration with quick and full modes:
+
+```text
+notebooks/colab_demo.ipynb
+```
+
+In Colab, clone the repository, run `bash scripts/setup.sh`, open `notebooks/colab_demo.ipynb`, and start with `QUICK_DEMO = True` for a 3-5 example verification path. The quick path calls project package runners with stub model backends and writes ignored demo artifacts under `data/demo/`.
+
+For full fixed-split evaluation, set:
+
+```python
+QUICK_DEMO = False
+RUN_FULL_EVALUATION = True
+```
+
+Then rerun the notebook after generating or mounting the required datasets, audio files, and prediction artifacts. Use `configs/fast_model.yaml` or `configs/fast_pipelines.yaml` for faster text-only Pipeline A checks. Use `configs/reference_model.yaml` through `configs/pipelines.yaml` for reference and multimodal runs.
+
+The report draft is:
+
+```text
+reports/final_report.md
+```
+
+After `bash scripts/evaluate.sh` completes on the fixed test split, fill the TBD result cells in `reports/final_report.md` from `data/metrics/comparison_table.csv`, `data/metrics/*_metrics.json`, and `reports/failure_cases.jsonl`.
