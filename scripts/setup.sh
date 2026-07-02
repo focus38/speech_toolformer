@@ -30,7 +30,7 @@ if [[ "${USE_VENV}" == "1" ]]; then
 fi
 
 "${PYTHON_BIN}" -m pip install --upgrade pip
-"${PYTHON_BIN}" -m pip install -r "${ROOT_DIR}/requirements.txt" -q
+"${PYTHON_BIN}" -m pip install -r "${ROOT_DIR}/requirements.txt"
 
 cat <<EOF
 Setup complete.
