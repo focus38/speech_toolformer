@@ -185,10 +185,10 @@ These model configs are used later by pipelines A-D and real inference only.
 - [X] T092 Implement metrics table writer in `src/evaluation/reporting/tables.py` for `data/metrics/pipeline_a_metrics.json`, `pipeline_b_metrics.json`, `pipeline_c_metrics.json`, `pipeline_d_metrics.json`, and `comparison_table.csv`
 - [X] T093 Implement plotting helpers in `src/evaluation/reporting/plots.py` for report figures under `reports/figures/`
 - [ ] T094 Create report draft in `reports/final_report.md` covering project goal, tool schema, dataset process, audio process, model/prompt setup, metrics for A-D, ASR WER, best pipeline choice, failure cases, limitations, and improvements
-- [ ] T095 Create demo notebook skeleton in `notebooks/demo.ipynb` that calls package code instead of embedding core logic
+- [X] T095 Create demo notebook skeleton in `notebooks/demo.ipynb` that calls package code instead of embedding core logic
 - [ ] T095.1 Update quickstart guide in `specs/001-speech-transit-toolformer/quickstart.md` with evaluation commands, and expected outputs.
-- [ ] T095.2 Create Colab-ready notebook `notebooks/colab_demo.ipynb` that runs or demonstrates all four pipelines A, B, C, and D separately.
-- [ ] T095.3 Add notebook cells for:
+- [X] T095.2 Create Colab-ready notebook `notebooks/colab_demo.ipynb` that runs or demonstrates all four pipelines A, B, C, and D separately.
+- [X] T095.3 Add notebook cells for:
   - environment setup
   - mounting Google Drive if needed
   - loading configs
@@ -203,9 +203,9 @@ These model configs are used later by pipelines A-D and real inference only.
   - showing failure examples
   - explaining best pipeline choice
 
-- [ ] T095.4 Ensure the notebook calls project package code and scripts instead of duplicating core logic.
-- [ ] T095.5 Add a small “quick demo mode” to the notebook that runs on 3-5 examples for fast Colab verification.
-- [ ] T095.6 Add a “full evaluation mode” to the notebook that runs on the fixed test split and produces report-ready outputs.
+- [X] T095.4 Ensure the notebook calls project package code and scripts instead of duplicating core logic.
+- [X] T095.5 Add a small “quick demo mode” to the notebook that runs on 3-5 examples for fast Colab verification.
+- [X] T095.6 Add a “full evaluation mode” to the notebook that runs on the fixed test split and produces report-ready outputs.
 - 
 **Checkpoint**: Saved predictions can be evaluated end to end and turned into report tables, plots, failure cases, and a final report draft.
 
